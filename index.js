@@ -36,3 +36,13 @@ function reverseString(s) {
   return s;
 }
 // Explanation: Two-pointer approach where left starts at beginning and right at end. Swap characters at these positions and move pointers toward center until they meet. Note: In JavaScript, strings are immutable, so this actually works on an array of characters if passed as such, or creates a new string if s is a string primitive.
+
+// Problem: Write a function that returns the factorial of a non-negative integer n.
+// Solution:
+function factorial(n) {
+  if (n === 0 || n === 1) {
+    return 1;
+  }
+  return n * factorial(n - 1);
+}
+// Explanation: Recursive approach where factorial(n) = n * factorial(n-1) with base case 0! = 1! = 1.
