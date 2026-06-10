@@ -5,6 +5,7 @@
 function add(a, b) {
   return a + b;
 }
+// Explanation: Simple function that takes two parameters and returns their sum using the + operator.
 
 // Problem: Two Sum — Given an array of integers nums and an integer target,
 // return indices of the two numbers that add up to target.
@@ -21,6 +22,7 @@ function twoSum(nums, target) {
   }
   return [];
 }
+// Explanation: Uses a hash map to store each number's index as we iterate. For each number, we check if its complement (target - current number) exists in the map. If found, we return the indices. This gives O(n) time complexity.
 
 // Problem: Reverse a string in-place.
 // Solution:
@@ -33,3 +35,4 @@ function reverseString(s) {
   }
   return s;
 }
+// Explanation: Two-pointer approach where left starts at beginning and right at end. Swap characters at these positions and move pointers toward center until they meet. Note: In JavaScript, strings are immutable, so this actually works on an array of characters if passed as such, or creates a new string if s is a string primitive.
