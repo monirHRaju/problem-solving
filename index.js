@@ -80,6 +80,7 @@ function factorial(n) {
 // Explanation: Recursive approach where factorial(n) = n * factorial(n-1) with base case 0! = 1! = 1.
 
 
+
 // Problem: FizzBuzz - Given an integer n, return an array of strings from 1 to n where multiples of 3 are replaced by "Fizz", multiples of 5 by "Buzz", and multiples of both 3 and 5 by "FizzBuzz".
 // Example 1:
 // Input: n = 3
@@ -107,3 +108,41 @@ function fizzBuzz(n) {
   return result;
 }
 // Explanation: Loop from 1 to n. For each number, check divisibility by 3 and 5. If divisible by both, add "FizzBuzz"; else if by 3, add "Fizz"; else if by 5, add "Buzz"; else add the number as a string. Time complexity O(n), space complexity O(n) for the output array.
+
+// Problem: Valid Parentheses - Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+// An input string is valid if:
+// 1. Open brackets must be closed by the same type of brackets.
+// 2. Open brackets must be closed in the correct order.
+// 3. Every close bracket has a corresponding open bracket of the same type.
+// Example 1:
+// Input: s = "()"
+// Output: true
+// Example 2:
+// Input: s = "()[]{}"
+// Output: true
+// Example 3:
+// Input: s = "(]"
+// Output: false
+// Solution:
+function isValid(s) {
+  const stack = [];
+  const map = {
+    ')': '(',
+    '}': '{',
+    ']': '['
+  };
+  for (let char of s) {
+    if (map[char]) {
+      // If it's a closing bracket
+      const topElement = stack.length === 0 ? '#' : stack.pop();
+      if (map[char] !== topElement) {
+        return false;
+      }
+    } else {
+      // If it's an opening bracket, push to stack
+      stack.push(char);
+    }
+  }
+  return stack.length === 0;
+}
+// Explanation: We use a stack to keep track of opening brackets. When we encounter a closing bracket, we check if the top of the stack is the matching opening bracket. If not, return false. At the end, the stack should be empty if all opening brackets were properly closed. Time complexity O(n), space complexity O(n) in the worst case.
