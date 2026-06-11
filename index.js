@@ -78,3 +78,32 @@ function factorial(n) {
   return n * factorial(n - 1);
 }
 // Explanation: Recursive approach where factorial(n) = n * factorial(n-1) with base case 0! = 1! = 1.
+
+
+// Problem: FizzBuzz - Given an integer n, return an array of strings from 1 to n where multiples of 3 are replaced by "Fizz", multiples of 5 by "Buzz", and multiples of both 3 and 5 by "FizzBuzz".
+// Example 1:
+// Input: n = 3
+// Output: ["1", "2", "Fizz"]
+// Example 2:
+// Input: n = 5
+// Output: ["1", "2", "Fizz", "4", "Buzz"]
+// Example 3:
+// Input: n = 15
+// Output: ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"]
+// Solution:
+function fizzBuzz(n) {
+  const result = [];
+  for (let i = 1; i <= n; i++) {
+    if (i % 3 === 0 && i % 5 === 0) {
+      result.push("FizzBuzz");
+    } else if (i % 3 === 0) {
+      result.push("Fizz");
+    } else if (i % 5 === 0) {
+      result.push("Buzz");
+    } else {
+      result.push(i.toString());
+    }
+  }
+  return result;
+}
+// Explanation: Loop from 1 to n. For each number, check divisibility by 3 and 5. If divisible by both, add "FizzBuzz"; else if by 3, add "Fizz"; else if by 5, add "Buzz"; else add the number as a string. Time complexity O(n), space complexity O(n) for the output array.
