@@ -146,3 +146,28 @@ function isValid(s) {
   return stack.length === 0;
 }
 // Explanation: We use a stack to keep track of opening brackets. When we encounter a closing bracket, we check if the top of the stack is the matching opening bracket. If not, return false. At the end, the stack should be empty if all opening brackets were properly closed. Time complexity O(n), space complexity O(n) in the worst case.
+
+// Problem: Palindrome Check - Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+// Example 1:
+// Input: s = "A man, a plan, a canal: Panama"
+// Output: true
+// Explanation: "amanaplanacanalpanama" is a palindrome.
+// Example 2:
+// Input: s = "race a car"
+// Output: false
+// Explanation: "raceacar" is not a palindrome.
+// Solution:
+function isPalindrome(s) {
+  const alphanumericOnly = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  let left = 0;
+  let right = alphanumericOnly.length - 1;
+  while (left < right) {
+    if (alphanumericOnly[left] !== alphanumericOnly[right]) {
+      return false;
+    }
+    left++;
+    right--;
+  }
+  return true;
+}
+// Explanation: First, convert string to lowercase and remove non-alphanumeric characters. Then use two-pointer technique: left starts at beginning, right at end. Compare characters moving inward; if any mismatch, return false. If all match, return true. Time complexity O(n), space complexity O(n) for the filtered string (could be O(1) if we check characters on the fly but we keep simple).
