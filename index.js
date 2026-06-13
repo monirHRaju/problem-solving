@@ -171,3 +171,28 @@ function isPalindrome(s) {
   return true;
 }
 // Explanation: First, convert string to lowercase and remove non-alphanumeric characters. Then use two-pointer technique: left starts at beginning, right at end. Compare characters moving inward; if any mismatch, return false. If all match, return true. Time complexity O(n), space complexity O(n) for the filtered string (could be O(1) if we check characters on the fly but we keep simple).
+
+
+// Problem: Merge Sorted Arrays - Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array. The number of elements initialized in nums1 and nums2 are m and n respectively. You may assume that nums1 has a size equal to m + n such that it has enough space to hold additional elements from nums2.
+// Example 1:
+// Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+// Output: [1,2,2,3,5,6]
+// Explanation: The merged array is [1,2,2,3,5,6].
+// Solution:
+function merge(nums1, m, nums2, n) {
+  let i = m - 1; // Pointer for nums1's actual elements
+  let j = n - 1; // Pointer for nums2
+  let k = m + n - 1; // Pointer for the end of nums1
+
+  while (j >= 0) {
+    if (i >= 0 && nums1[i] > nums2[j]) {
+      nums1[k] = nums1[i];
+      i--;
+    } else {
+      nums1[k] = nums2[j];
+      j--;
+    }
+    k--;
+  }
+}
+// Explanation: We start from the end of both arrays and compare elements, placing the larger one at the end of nums1. This avoids overwriting elements in nums1 that haven't been processed yet. Time complexity O(m+n), space complexity O(1).
