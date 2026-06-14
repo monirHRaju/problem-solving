@@ -220,3 +220,27 @@ function containsDuplicate(nums) {
   return false;
 }
 // Explanation: We use a Set to store numbers we have seen. For each number, if it already exists in the set, we have found a duplicate and return true. Otherwise, we add the number to the set. If we finish the loop without finding duplicates, return false. This runs in O(n) time and O(n) space.
+
+// Problem: Check Good Integer
+// Example 1:
+// Input: n = 1000
+// Output: false
+// Explanation: The digits of 1000 are 1, 0, 0, and 0. The digitSum is 1. The squareSum is 1. The squareSum - digitSum is 0, which is less than 50, so output is false.
+// Example 2:
+// Input: n = 19
+// Output: true
+// Explanation: The digits of 19 are 1 and 9. The digitSum is 10. The squareSum is 82. The squareSum - digitSum is 72, which is >=50, so output is true.
+// Solution:
+function checkGoodInteger(n) {
+  let digitSum = 0;
+  let squareSum = 0;
+  while (n > 0) {
+    const digit = n % 10;
+    digitSum += digit;
+    squareSum += digit * digit;
+    n = Math.floor(n / 10);
+  }
+  return (squareSum - digitSum) >= 50;
+}
+// Explanation: We compute the sum of digits (digitSum) and the sum of squares of digits (squareSum) by iterating through each digit of n. Then we check if squareSum - digitSum is at least 50.
+
