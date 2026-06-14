@@ -173,6 +173,8 @@ function isPalindrome(s) {
 // Explanation: First, convert string to lowercase and remove non-alphanumeric characters. Then use two-pointer technique: left starts at beginning, right at end. Compare characters moving inward; if any mismatch, return false. If all match, return true. Time complexity O(n), space complexity O(n) for the filtered string (could be O(1) if we check characters on the fly but we keep simple).
 
 
+
+
 // Problem: Merge Sorted Arrays - Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array. The number of elements initialized in nums1 and nums2 are m and n respectively. You may assume that nums1 has a size equal to m + n such that it has enough space to hold additional elements from nums2.
 // Example 1:
 // Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
@@ -196,3 +198,25 @@ function merge(nums1, m, nums2, n) {
   }
 }
 // Explanation: We start from the end of both arrays and compare elements, placing the larger one at the end of nums1. This avoids overwriting elements in nums1 that haven't been processed yet. Time complexity O(m+n), space complexity O(1).
+// Problem: Contains Duplicate - Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+// Example 1:
+// Input: nums = [1,2,3,1]
+// Output: true
+// Example 2:
+// Input: nums = [1,2,3,4]
+// Output: false
+// Example 3:
+// Input: nums = [1,1,1,3,3,4,3,2,4,2]
+// Output: true
+// Solution:
+function containsDuplicate(nums) {
+  const seen = new Set();
+  for (const num of nums) {
+    if (seen.has(num)) {
+      return true;
+    }
+    seen.add(num);
+  }
+  return false;
+}
+// Explanation: We use a Set to store numbers we have seen. For each number, if it already exists in the set, we have found a duplicate and return true. Otherwise, we add the number to the set. If we finish the loop without finding duplicates, return false. This runs in O(n) time and O(n) space.
