@@ -244,3 +244,23 @@ function checkGoodInteger(n) {
 }
 // Explanation: We compute the sum of digits (digitSum) and the sum of squares of digits (squareSum) by iterating through each digit of n. Then we check if squareSum - digitSum is at least 50.
 
+// Problem: Digit Frequency Score - Given an integer n, return the sum of its digits.
+// Example 1:
+//   // Input: n = 122
+//   // Output: 5
+//   // Explanation: 1 + 2 + 2 = 5.
+// Example 2:
+//   // Input: n = 101
+//   // Output: 2
+//   // Explanation: 1 + 0 + 1 = 2.
+//   // Solution:
+//   function digitFrequencyScore(n) {
+//       let sum = 0;
+//       const s = String(Math.abs(n)); // handle negative numbers
+//       for (const ch of s) {
+//           sum += parseInt(ch, 10);
+//       }
+//       return sum;
+//   }
+//   // Explanation: We convert the absolute value of the number to a string to handle negative numbers, then iterate over each character, convert it to a digit, and accumulate the sum. This runs in O(d) time where d is the number of digits.
+// 
