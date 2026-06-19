@@ -264,3 +264,105 @@ function checkGoodInteger(n) {
 //   }
 //   // Explanation: We convert the absolute value of the number to a string to handle negative numbers, then iterate over each character, convert it to a digit, and accumulate the sum. This runs in O(d) time where d is the number of digits.
 // 
+// Problem: Frequency Balance Subarray (LeetCode #4322 - Medium)
+// Link: https://leetcode.com/problems/frequency-balance-subarray/
+// Description: You are given an integer array ​​​​​​​ nums . 
+
+ Define a  frequency balance  subarray   as follows: 
+
+ 
+	 If the subarray contains only one distinct value, it is frequency balanced. 
+	 Otherwise, there must exist a positive integer  f  such that every distinct value in the subarray occurs either  f  or  2 * f  times, and both  frequencies  occur among the distinct values. 
+ 
+
+ Return an integer denoting the length of the  longest  frequency balance subarray. 
+
+ &nbsp; 
+  Example 1:  
+
+ 
+  Input...
+
+// Example 1:
+// Input: ...
+// Output: ...
+// 
+// Solution:
+
+function longestFrequencyBalanceSubarray(nums) {
+    let n = nums.length;
+    if (n === 0) return 0;
+    let maxLen = 0;
+    for (let i = 0; i < n; i++) {
+        const freq = new Map(); // value -> count
+        const countFreq = new Map(); // count -> number of values having this count
+        let distinctVals = 0;
+        for (let j = i; j < n; j++) {
+            const val = nums[j];
+            const oldCount = freq.get(val) || 0;
+            const newCount = oldCount + 1;
+            freq.set(val, newCount);
+            if (oldCount === 0) {
+                distinctVals++;
+            }
+            // update countFreq for oldCount
+            if (oldCount > 0) {
+                const oldCountFreq = countFreq.get(oldCount) || 0;
+                if (oldCountFreq <= 1) {
+                    countFreq.delete(oldCount);
+                } else {
+                    countFreq.set(oldCount, oldCountFreq - 1);
+                }
+            }
+            // update countFreq for newCount
+            const newCountFreq = (countFreq.get(newCount) || 0) + 1;
+            countFreq.set(newCount, newCountFreq);
+            // check condition
+            let valid = false;
+            if (distinctVals === 1) {
+                valid = true;
+            } else {
+                if (countFreq.size === 2) {
+                    const keys = [...countFreq.keys()].sort((a, b) => a - b);
+                    if (keys[1] === 2 * keys[0]) {
+                        valid = true;
+                    }
+                }
+            }
+            if (valid) {
+                maxLen = Math.max(maxLen, j - i + 1);
+            }
+        }
+    }
+    return maxLen;
+}
+
+// Explanation: We use a brute-force approach with optimization. For each starting index i, we extend the subarray to j, updating frequency maps. We maintain a frequency map (value->count) and a count frequency map (count->number of values having that count). For each subarray, we check if it is frequency balanced: if there is only one distinct value, it's valid; otherwise, we need exactly two distinct frequencies f and 2f (with both present). The check is O(1) per extension assuming the number of distinct frequencies is small. Overall complexity is O(n^2) in practice.
+// Problem: Add Two Numbers (LeetCode #2 - Medium)
+// Link: https://leetcode.com/problems/add-two-numbers/
+// Description: You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and...
+
+// Example 1:
+// Input: l1 = [2,4,3], l2 = [5,6,4]
+// Output: [7,0,8]
+// 
+// Solution:
+function addTwoNumbers(l1, l2) {
+    let dummy = new ListNode(0);
+    let current = dummy;
+    let carry = 0;
+    
+    while (l1 !== null || l2 !== null || carry !== 0) {
+        const sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry;
+        carry = Math.floor(sum / 10);
+        current.next = new ListNode(sum % 10);
+        current = current.next;
+        
+        if (l1 !== null) l1 = l1.next;
+        if (l2 !== null) l2 = l2.next;
+    }
+    
+    return dummy.next;
+}
+// Explanation: We use a dummy head to simplify the code. We iterate through both lists, adding corresponding digits and carry. The carry is propagated to the next digit. We create a new node for each sum digit. The time complexity is O(max(m, n)) where m and n are the lengths of the two lists. The space complexity is O(max(m, n)) for the new list.
+
