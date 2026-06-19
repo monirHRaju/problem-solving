@@ -366,3 +366,29 @@ function addTwoNumbers(l1, l2) {
 }
 // Explanation: We use a dummy head to simplify the code. We iterate through both lists, adding corresponding digits and carry. The carry is propagated to the next digit. We create a new node for each sum digit. The time complexity is O(max(m, n)) where m and n are the lengths of the two lists. The space complexity is O(max(m, n)) for the new list.
 
+
+
+// Problem: Digit Frequency Score
+// Example 1:
+// Input: n = 122
+// Output: 5
+// Explanation: The digit 1 appears 1 time, contributing 1 * 1 = 1. The digit 2 appears 2 times, contributing 2 * 2 = 4. Thus, the score of n is 1 + 4 = 5.
+// Example 2:
+// Input: n = 101
+// Output: 2
+// Explanation: The digit 0 appears 1 time, contributing 0 * 1 = 0. The digit 1 appears 2 times, contributing 1 * 2 = 2. Thus, the score of n is 0 + 2 = 2.
+// Solution:
+function digitFrequencyScore(n) {
+    const s = String(n);
+    const freq = new Map();
+    for (const ch of s) {
+        const digit = parseInt(ch, 10);
+        freq.set(digit, (freq.get(digit) || 0) + 1);
+    }
+    let sum = 0;
+    for (const [digit, count] of freq.entries()) {
+        sum += digit * count;
+    }
+    return sum;
+}
+// Explanation: We convert the number to a string to iterate over each digit. We count the frequency of each digit using a map. Then we compute the sum of each digit multiplied by its frequency. This runs in O(d) time where d is the number of digits.
