@@ -481,3 +481,32 @@ function minimumSwaps(nums) {
 }
 // Explanation: First count the total number of zeros (zeroCount). The last zeroCount positions should be zeros in the final array. Thus, the first n - zeroCount positions should contain only non-zeros. Any zero appearing in this prefix must be swapped with a non-zero from the suffix. The number of such zeros in the prefix is the minimum number of swaps needed.
 
+
+// Problem: Create Grid With Exactly One Path
+// Example 1:
+// Input: m = 2, n = 3
+// Output: ["..#","#.."]
+// Example 2:
+// Input: m = 3, n = 3
+// Output: ["..#","#..","##."]
+// Example 3:
+// Input: m = 1, n = 4
+// Output: ["...."]
+
+// Solution:
+function createGrid(m, n) {
+  // Initialize grid with '#'
+  const grid = Array.from({ length: m }, () => Array(n).fill('#'));
+  // Set first row to '.'
+  for (let j = 0; j < n; j++) {
+    grid[0][j] = '.';
+  }
+  // Set last column to '.'
+  for (let i = 0; i < m; i++) {
+    grid[i][n - 1] = '.';
+  }
+  // Convert each row to string
+  return grid.map(row => row.join(''));
+}
+
+// Explanation: We set the first row and last column to '.' and all other cells to '#'. This forces a unique path that goes right to the last column then down to the bottom-right corner.
