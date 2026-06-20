@@ -464,7 +464,7 @@ function sumOfCompatibleNumbers(n, k) {
 //    Swap nums[2] and nums[4], giving nums = [3, 1, 12, 0, 0].
 //
 // Solution:
-function minSwaps(nums) {
+function minimumSwaps(nums) {
   const n = nums.length;
   let zeroCount = 0;
   for (const num of nums) {
