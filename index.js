@@ -392,3 +392,62 @@ function digitFrequencyScore(n) {
     return sum;
 }
 // Explanation: We convert the number to a string to iterate over each digit. We count the frequency of each digit using a map. Then we compute the sum of each digit multiplied by its frequency. This runs in O(d) time where d is the number of digits.
+
+
+// Problem: Sum of Compatible Numbers in Range I (LeetCode #4319 - Easy)
+// Link: https://leetcode.com/problems/sum-of-compatible-numbers-in-range-i/
+// Description: Given two integers n and k, find the sum of all positive integers x such that the absolute difference between n and x is at most k, and the bitwise AND of n and x is zero.
+//
+// Example 1:
+// Input: n = 2, k = 3
+// Output: 10
+// Explanation: The compatible integers are 1, 4, 5.
+//
+// Example 2:
+// Input: n = 5, k = 1
+// Output: 0
+// Explanation: There are no compatible integers in the range [4, 6].
+//
+// Solution:
+function sumOfCompatibleNumbers(n, k) {
+  let sum = 0;
+  const start = Math.max(1, n - k);
+  const end = n + k;
+  for (let x = start; x <= end; x++) {
+    if ((n & x) === 0) {
+      sum += x;
+    }
+  }
+  return sum;
+}
+// Explanation: We iterate through all integers x in the range [max(1, n-k), n+k]. For each x, we check if (n & x) === 0. If true, we add x to the sum. This works because the constraints are small (n, k <= 100), so O(k) time is acceptable.
+
+
+// Problem: Sum of Compatible Numbers in Range I (LeetCode #4319 - Easy)
+// Link: https://leetcode.com/problems/sum-of-compatible-numbers-in-range-i/
+// Description: Given two integers n and k, find the sum of all positive integers x such that the absolute difference between n and x is at most k, and the bitwise AND of n and x is zero.
+//
+// Example 1:
+// Input: n = 2, k = 3
+// Output: 10
+// Explanation: The compatible integers are 1, 4, 5.
+//
+// Example 2:
+// Input: n = 5, k = 1
+// Output: 0
+// Explanation: There are no compatible integers in the range [4, 6].
+//
+// Solution:
+function sumOfCompatibleNumbers(n, k) {
+  let sum = 0;
+  const start = Math.max(1, n - k);
+  const end = n + k;
+  for (let x = start; x <= end; x++) {
+    if ((n & x) === 0) {
+      sum += x;
+    }
+  }
+  return sum;
+}
+// Explanation: We iterate through all integers x in the range [max(1, n-k), n+k]. For each x, we check if (n & x) === 0. If true, we add x to the sum. This works because the constraints are small (n, k <= 100), so O(k) time is acceptable.
+
