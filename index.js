@@ -451,3 +451,33 @@ function sumOfCompatibleNumbers(n, k) {
 }
 // Explanation: We iterate through all integers x in the range [max(1, n-k), n+k]. For each x, we check if (n & x) === 0. If true, we add x to the sum. This works because the constraints are small (n, k <= 100), so O(k) time is acceptable.
 
+
+// Problem: Minimum Swaps to Move Zeros to End (LeetCode #4316 - Easy)
+// Link: https://leetcode.com/problems/minimum-swaps-to-move-zeros-to-end/
+// Description: Given an integer array nums, in one operation you can choose any two distinct indices i and j and swap nums[i] and nums[j]. Return the minimum number of operations required to move all 0s to the end of the array.
+//
+// Example 1:
+// Input: nums = [0,1,0,3,12]
+// Output: 2
+// Explanation: We perform the following swap operations:
+//    Swap nums[0] and nums[3], giving nums = [3, 1, 0, 0, 12].
+//    Swap nums[2] and nums[4], giving nums = [3, 1, 12, 0, 0].
+//
+// Solution:
+function minSwaps(nums) {
+  const n = nums.length;
+  let zeroCount = 0;
+  for (const num of nums) {
+    if (num === 0) zeroCount++;
+  }
+  if (zeroCount === 0) return 0;
+  let swaps = 0;
+  for (let i = 0; i < n - zeroCount; i++) {
+    if (nums[i] === 0) {
+      swaps++;
+    }
+  }
+  return swaps;
+}
+// Explanation: First count the total number of zeros (zeroCount). The last zeroCount positions should be zeros in the final array. Thus, the first n - zeroCount positions should contain only non-zeros. Any zero appearing in this prefix must be swapped with a non-zero from the suffix. The number of such zeros in the prefix is the minimum number of swaps needed.
+
