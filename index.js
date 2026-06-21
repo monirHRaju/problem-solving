@@ -510,3 +510,37 @@ function createGrid(m, n) {
 }
 
 // Explanation: We set the first row and last column to '.' and all other cells to '#'. This forces a unique path that goes right to the last column then down to the bottom-right corner.
+// Problem: Maximum Manhattan Distance After All Moves
+// Example 1:
+// Input: moves = "L_D_"
+// Output: 4
+// Explanation:
+// One optimal choice is:
+//   'L': (0,0) -> (-1,0)
+//   '_' treated as 'D': (-1,0) -> (-1,-1)
+//   'D': (-1,-1) -> (-1,-2)
+//   '_' treated as 'L': (-1,-2) -> (-2,-2)
+// The final Manhattan distance from the origin is |0 - (-2)| + |0 - (-2)| = 4.
+// Example 2:
+// Input: moves = "U_R"
+// Output: 3
+// Explanation:
+// One optimal choice is:
+//   'U': (0,0) -> (0,1)
+//   '_' treated as 'U': (0,1) -> (0,2)
+//   'R': (0,2) -> (1,2)
+// The final Manhattan distance from the origin is |0 - 1| + |0 - 2| = 3.
+// Solution:
+// function maxDistance(moves) {
+//   let dx = 0, dy = 0, underscore = 0;
+//   for (const ch of moves) {
+//     if (ch === 'U') dy++;
+//     else if (ch === 'D') dy--;
+//     else if (ch === 'R') dx++;
+//     else if (ch === 'L') dx--;
+//     else if (ch === '_') underscore++;
+//   }
+//   return Math.abs(dx) + Math.abs(dy) + underscore;
+// }
+// Explanation: We compute the net displacement from known moves (dx, dy) and count underscores (_). Each underscore can be used to move in a direction that increases the Manhattan distance by 1, regardless of whether we allocate it to horizontal or vertical. Thus the maximum distance is |dx| + |dy| + underscore count.
+
