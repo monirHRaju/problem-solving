@@ -629,3 +629,89 @@ function coverGapInline(start, end, n) {
     }
     return count;
 }
+
+
+// Problem: Limit Occurrences in Sorted Array
+// Example 1:
+// Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,1,2,2,3]
+Explanation: Each element can appear at most 2 times.
+- The element 1 appears 3 times, so only 2 occurrences are kept.
+- The element 2 appears 2 times, so both occurrences are kept.
+- The element 3 appears 1 time, so it is kept.
+Thus, the resulting array is [1, 1, 2, 2, 3].
+// Example 2:
+// Input: nums = [1,2,3], k = 1
+Output: [1,2,3]
+Explanation: All elements are distinct and already appear at most once, so the array remains unchanged.
+// Solution:
+// function limitOccurrences(nums, k) {
+    const result = [];
+    let i = 0;
+    while (i < nums.length) {
+        const val = nums[i];
+        let count = 0;
+        while (i < nums.length && nums[i] === val) {
+            count++;
+            i++;
+        }
+        const keep = Math.min(count, k);
+        for (let j = 0; j < keep; j++) {
+            result.push(val);
+        }
+    }
+    return result;
+}
+// Explanation:
+// We iterate through the sorted array, counting consecutive occurrences of each value. For each distinct value, we keep the minimum of its count and k, pushing that many copies to the result array. This ensures each distinct element appears at most k times, and if it appears at least k times, we keep exactly k. The algorithm runs in O(n) time and uses O(n) extra space for the result (or O(1) if we modify the input array in place).
+
+// Problem: Valid Subarrays With Matching Sum Digits I
+// Example 1:
+// Input: nums = [1,100,1], x = 1
+// Output: 4
+// Explanation: The valid subarrays are:
+// nums[0..0]: sum = 1
+// nums[0..1]: sum = 1 + 100 = 101
+// nums[1..2]: sum = 100 + 1 = 101
+// nums[2..2]: sum = 1
+// Thus, the answer is 4.
+
+// Example 2:
+// Input: nums = [1], x = 2
+// Output: 0
+// Explanation: The only subarray is nums[0..0] with a sum of 1, which does not satisfy the conditions.
+// Thus, the answer is 0.
+
+// Solution:
+/**
+ * @param {number[]} nums
+ * @param {number} x
+ * @return {number}
+ */
+var countValidSubarrays = function(nums, x) {
+    const n = nums.length;
+    const prefix = new Array(n + 1).fill(0);
+    for (let i = 0; i < n; i++) {
+        prefix[i + 1] = prefix[i] + nums[i];
+    }
+    let count = 0;
+    for (let i = 0; i < n; i++) {
+        for (let j = i; j < n; j++) {
+            const sum = prefix[j + 1] - prefix[i];
+            if (sum % 10 !== x) continue;
+            let s = sum;
+            while (s >= 10) {
+                s = Math.floor(s / 10);
+            }
+            if (s === x) count++;
+        }
+    }
+    return count;
+}
+
+// Explanation: We use prefix sums to compute subarray sums in O(1) time.
+// We iterate over all possible start and end indices (O(n^2)), which is acceptable for n <= 1500.
+// For each subarray sum, we check if the last digit equals x and the first digit equals x.
+// To get the first digit, we repeatedly divide by 10 until the number is less than 10.
+// Time complexity: O(n^2 * d) where d is the number of digits (at most 13 for sum up to 1.5e12).
+// Space complexity: O(n) for the prefix array.
