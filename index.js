@@ -747,3 +747,59 @@ function isPalindrome(x) {
 }
 // Explanation: We reverse the number mathematically and compare with the original. Negative numbers are not palindromes. Time complexity O(log10(x)) (number of digits), space complexity O(1).
 
+
+// Problem: Password Strength
+// Link: https://leetcode.com/problems/password-strength/
+// Description: You are given a string password.
+// The strength of the password is calculated based on the following rules:
+//   1 point for each distinct lowercase letter ('a' to 'z').
+//   2 points for each distinct uppercase letter ('A' to 'Z').
+//   3 points for each distinct digit ('0' to '9').
+//   5 points for each distinct special character from the set "!@#$".
+// Each character contributes at most once, even if it appears multiple times.
+// Return an integer denoting the strength of the password.
+// 
+// Example 1:
+// Input: password = "aA1!"
+// Output: 11
+// Explanation:
+//   The distinct characters are 'a', 'A', '1' and '!'.
+//   Thus, the strength = 1 + 2 + 3 + 5 = 11.
+// 
+// Example 2:
+// Input: password = "bbB11#"
+// Output: 11
+// Explanation:
+//   The distinct characters are 'b', 'B', '1' and '#'.
+//   Thus, the strength = 1 + 2 + 3 + 5 = 11.
+// 
+// Solution:
+// var passwordStrength = function(password) {
+//     const lower = new Set();
+//     const upper = new Set();
+//     const digit = new Set();
+//     const special = new Set();
+//     const specialSet = new Set(['!', '@', '#', '$']);
+    
+//     for (const ch of password) {
+//         if (ch >= 'a' && ch <= 'z') {
+//             lower.add(ch);
+//         } else if (ch >= 'A' && ch <= 'Z') {
+//             upper.add(ch);
+//         } else if (ch >= '0' && ch <= '9') {
+//             digit.add(ch);
+//         } else if (specialSet.has(ch)) {
+//             special.add(ch);
+//         }
+//     }
+    
+//     let score = 0;
+//     score += lower.size * 1;
+//     score += upper.size * 2;
+//     score += digit.size * 3;
+//     score += special.size * 5;
+//     
+//     return score;
+// };
+// 
+// Explanation: We use four sets to track distinct characters in each category. We iterate through the password once, adding each character to the appropriate set if it belongs to that category. After processing, we compute the score by multiplying the size of each set by its respective weight and summing them up. This runs in O(n) time where n is the length of the password, and uses O(1) extra space (since the sets are bounded by the size of the character sets: 26 lowercase, 26 uppercase, 10 digits, 4 specials).
