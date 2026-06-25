@@ -715,3 +715,35 @@ var countValidSubarrays = function(nums, x) {
 // To get the first digit, we repeatedly divide by 10 until the number is less than 10.
 // Time complexity: O(n^2 * d) where d is the number of digits (at most 13 for sum up to 1.5e12).
 // Space complexity: O(n) for the prefix array.
+// Problem: Palindrome Number (LeetCode #9 - Easy)
+// Link: https://leetcode.com/problems/palindrome-number/
+// Description: Given an integer x, return true if x is a palindrome, and false otherwise.
+//
+// Example 1:
+// Input: x = 121
+// Output: true
+// Explanation: 121 reads as 121 from left to right and from right to left.
+//
+// Example 2:
+// Input: x = -121
+// Output: false
+// Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+//
+// Example 3:
+// Input: x = 10
+// Output: false
+// Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+//
+// Solution:
+function isPalindrome(x) {
+    if (x < 0) return false;
+    let reversed = 0;
+    let original = x;
+    while (x > 0) {
+        reversed = reversed * 10 + x % 10;
+        x = Math.floor(x / 10);
+    }
+    return original === reversed;
+}
+// Explanation: We reverse the number mathematically and compare with the original. Negative numbers are not palindromes. Time complexity O(log10(x)) (number of digits), space complexity O(1).
+
