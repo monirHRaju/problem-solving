@@ -803,3 +803,23 @@ function isPalindrome(x) {
 // };
 // 
 // Explanation: We use four sets to track distinct characters in each category. We iterate through the password once, adding each character to the appropriate set if it belongs to that category. After processing, we compute the score by multiplying the size of each set by its respective weight and summing them up. This runs in O(n) time where n is the length of the password, and uses O(1) extra space (since the sets are bounded by the size of the character sets: 26 lowercase, 26 uppercase, 10 digits, 4 specials).
+
+// Title: Two Sum
+// Link: https://leetcode.com/problems/two-sum/
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    const map = new Map();
+    for (let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i];
+        if (map.has(complement)) {
+            return [map.get(complement), i];
+        }
+        map.set(nums[i], i);
+    }
+    return [];
+};
