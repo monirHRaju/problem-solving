@@ -823,3 +823,36 @@ var twoSum = function(nums, target) {
     }
     return [];
 };
+\n\n// Problem: Exactly One Consecutive Set Bits Pair (LeetCode #4307 - Easy)\n// Link: https://leetcode.com/problems/exactly-one-consecutive-set-bits-pair/\n// Description: You are given an integer n.\n\n// Example 1:\n// Input: n = 6\n// Output: true\n// Explanation: Binary representation of 6 is 110. There is exactly one adjacent pair of set bits (11). Thus, the answer is true.\n\n// Example 2:\n// Input: n = 5\n// Output: false\n// Explanation: Binary representation of 5 is 101. There is no adjacent pair of set bits. Thus, the answer is false.\n\n// Solution:\nfunction hasExactlyOnePair(n) {\n    let bin = n.toString(2);\n    let count = 0;\n    for (let i = 0; i < bin.length - 1; i++) {\n        if (bin[i] === "1" && bin[i+1] === "1") {\n            count++;\n        }\n    }\n    return count === 1;\n}\n\n// Explanation: Convert the number to its binary string representation. Iterate through the string counting occurrences of adjacent 1s (i.e., "11"). If the count is exactly one, return true; otherwise, false. This runs in O(log n) time and O(1) extra space.\n
+// Problem: Exactly One Consecutive Set Bits Pair (LeetCode #4307 - 1)
+// Link: https://leetcode.com/problems/exactly-one-consecutive-set-bits-pair/
+// Description: You are given an integer n.
+
+// Example 1:
+// Input: n = 6
+// Output: true
+// Explanation: Binary representation of 6 is 110. There is exactly one adjacent pair of set bits (11). Thus, the answer is true.
+
+// Example 2:
+// Input: n = 5
+// Output: false
+// Explanation: Binary representation of 5 is 101. There is no adjacent pair of set bits. Thus, the answer is false.
+
+// Solution:
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var consecutiveSetBits = function(n) {
+    let bin = n.toString(2);
+    let count = 0;
+    for (let i = 0; i < bin.length - 1; i++) {
+        if (bin[i] === '1' && bin[i+1] === '1') {
+            count++;
+        }
+    }
+    return count === 1;
+}
+
+// Explanation:
+Convert the number to its binary string representation. Iterate through the string counting occurrences of adjacent 1s (i.e., "11"). If the count is exactly one, return true; otherwise, false. This runs in O(log n) time and O(1) extra space.
