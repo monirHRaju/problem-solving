@@ -904,3 +904,77 @@ function romanToInt(s) {
 // Explanation: We iterate from right to left, adding the value of the current symbol.
 // If a symbol is smaller than the symbol to its right, we subtract it (like IV for 4).
 // Otherwise, we add it. This handles the subtractive notation correctly.
+
+// Problem: Maximum Total Sum of K Selected Elements (LeetCode #4348 - Medium)
+// Link: https://leetcode.com/problems/maximum-total-sum-of-k-selected-elements/
+// Description: You are given an integer array nums and two integers k and mul.
+// Select exactly k elements from nums. For each selected element, independently choose one of the following:
+//   - Add the element's value to the total sum.
+//   - Multiply the element by the current value of mul and add the result to the total sum.
+// After processing each selected element, mul decreases by 1 (regardless of the choice). The current value of mul may become 0 or negative.
+// Return the maximum possible total sum.
+// Example 1:
+// Input: nums = [6,1,2,9], k = 3, mul = 2
+// Output: 26
+// Explanation:
+// One optimal selection is nums[3] = 9, nums[0] = 6, and nums[2] = 2.
+// Process nums[2] = 2.
+// Step 1: Multiply 9 * 2 = 18 (mul becomes 1)
+// Step 2: Multiply 6 * 1 = 6 (mul becomes 0)
+// Step 3: Add 2 (mul becomes -1)
+// Total = 18 + 6 + 2 = 26.
+// Example 2:
+// Input: nums = [3,7,5,2], k = 2, mul = 4
+// Output: 43
+// Explanation:
+// One optimal selection is nums[1] = 7 and nums[2] = 5.
+// Step 1: Multiply 7 * 4 = 28 (mul becomes 3)
+// Step 2: Multiply 5 * 3 = 15 (mul becomes 2)
+// Total = 28 + 15 = 43.
+// Example 3:
+// Input: nums = [4,4], k = 1, mul = 1
+// Output: 4
+// Explanation:
+// Select nums[0] = 4.
+// Multiply 4 * 1 = 4 (mul becomes 0)
+// Total = 4.
+// Solution:
+function maxSumAfterOperations(nums, k, mul) {
+  // Sort descending to pick the k largest elements
+  const sorted = [...nums].sort((a, b) => b - a);
+  const selected = sorted.slice(0, k);
+  // Base sum if we add all selected elements
+  let base = 0;
+  for (const val of selected) {
+    base += val;
+  }
+  // Prefix sums of selected values and prefix sums of values * index
+  const n = selected.length;
+  const prefixSum = new Array(n + 1).fill(0);
+  const prefixWeighted = new Array(n + 1).fill(0);
+  for (let i = 0; i < n; i++) {
+    prefixSum[i + 1] = prefixSum[i] + selected[i];
+    prefixWeighted[i + 1] = prefixWeighted[i] + selected[i] * i;
+  }
+  let best = base;
+  const maxT = Math.min(k, mul); // we only consider multipliers > 0
+  for (let t = 1; t <= maxT; t++) {
+    // total = base + (mul - 1) * P[t] - W[t]
+    const total = base + (mul - 1) * prefixSum[t] - prefixWeighted[t];
+    if (total > best) {
+      best = total;
+    }
+  }
+  return best;
+}
+// Explanation:
+// We first select the k largest numbers because any optimal solution can be transformed to use the k largest without decreasing the sum.
+// Let the selected numbers be sorted in descending order: a0 >= a1 >= ... >= a_{k-1}.
+// Suppose we decide to multiply exactly t of them (0 <= t <= min(k, mul)). To maximize the sum, we assign the largest multipliers to the largest numbers.
+// The multipliers for multiplication are mul, mul-1, ..., mul-t+1 (each step mul decreases by 1).
+// The total sum equals:
+//   sum_{i=0}^{k-1} a_i   (if we added all)
+//   + sum_{i=0}^{t-1} a_i * (mul - i - 1)   (extra gain from multiplying instead of adding)
+// Using prefix sums we can compute this efficiently for each t in O(k) after sorting.
+// Time complexity: O(n log n) for sorting + O(k) for prefix sums and loop.
+// Space complexity: O(k) for the selected array and prefix arrays.
