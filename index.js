@@ -856,3 +856,51 @@ var consecutiveSetBits = function(n) {
 
 // Explanation:
 Convert the number to its binary string representation. Iterate through the string counting occurrences of adjacent 1s (i.e., "11"). If the count is exactly one, return true; otherwise, false. This runs in O(log n) time and O(1) extra space.
+
+// Problem: Roman to Integer (LeetCode #13 - Easy)
+// Link: https://leetcode.com/problems/roman-to-integer/
+// Description: Roman numerals are represented by seven different symbols:  I ,  V ,  X ,  L ,  C ,  D  and  M .
+
+// Example 1:
+// Input: s = "III"
+// Output: 3
+// Explanation: III = 3.
+//
+// Example 2:
+// Input: s = "LVIII"
+// Output: 58
+// Explanation: L = 50, V= III = 3.
+//
+// Example 3:
+// Input: s = "MCMXCIV"
+// Output: 1994
+// Explanation: M = 1000, CM = 900, XC = 90, IV = 4.
+
+// Solution:
+function romanToInt(s) {
+    const roman = {
+        'I': 1,
+        'V': 5,
+        'X': 10,
+        'L': 50,
+        'C': 100,
+        'D': 500,
+        'M': 1000
+    };
+    let total = 0;
+    let prev = 0;
+    for (let i = s.length - 1; i >= 0; i--) {
+        const val = roman[s[i]];
+        if (val < prev) {
+            total -= val;
+        } else {
+            total += val;
+        }
+        prev = val;
+    }
+    return total;
+}
+
+// Explanation: We iterate from right to left, adding the value of the current symbol.
+// If a symbol is smaller than the symbol to its right, we subtract it (like IV for 4).
+// Otherwise, we add it. This handles the subtractive notation correctly.
