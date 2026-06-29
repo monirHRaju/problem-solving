@@ -978,3 +978,29 @@ function maxSumAfterOperations(nums, k, mul) {
 // Using prefix sums we can compute this efficiently for each t in O(k) after sorting.
 // Time complexity: O(n log n) for sorting + O(k) for prefix sums and loop.
 // Space complexity: O(k) for the selected array and prefix arrays.
+
+
+// Problem: Maximum Total Sum of K Selected Elements
+// Solution:
+function maxSum(nums, k, mul) {
+    const n = nums.length;
+    // Calculate weights for each position
+    const weights = new Array(k);
+    for (let i = 0; i < k; i++) {
+        const w = mul - i;
+        weights[i] = Math.max(w, 1);
+    }
+    // Sort weights descending
+    weights.sort((a, b) => b - a);
+    // Sort nums descending
+    const sortedNums = [...nums].sort((a, b) => b - a);
+    // Take top k numbers
+    const selected = sortedNums.slice(0, k);
+    // Compute sum
+    let sum = 0;
+    for (let i = 0; i < k; i++) {
+        sum += weights[i] * selected[i];
+    }
+    return sum;
+}
+// Explanation: For each position i (0-indexed), the multiplier is mul - i. We choose multiplication if multiplier >= 1, else addition.\n// This reduces to assigning weights w_i = max(mul - i, 1) to each position. To maximize sum, we sort weights and selected numbers in descending order and pair them.\n
