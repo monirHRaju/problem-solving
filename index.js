@@ -1003,4 +1003,34 @@ function maxSum(nums, k, mul) {
     }
     return sum;
 }
-// Explanation: For each position i (0-indexed), the multiplier is mul - i. We choose multiplication if multiplier >= 1, else addition.\n// This reduces to assigning weights w_i = max(mul - i, 1) to each position. To maximize sum, we sort weights and selected numbers in descending order and pair them.\n
+// Explanation: For each position i (0-indexed), the multiplier is mul - i. We choose multiplication if multiplier >= 1, else addition.\n// This reduces to assigning weights w_i = max(mul - i, 1) to each position. To maximize sum, we sort weights and selected numbers in descending order and pair them.\n// Problem: Minimum Energy to Maintain Brightness - You are given an integer n, representing n light bulbs arranged in a line and indexed from 0 to n - 1. You are also given an integer brightness and a 2D integer array intervals, where intervals[i] = [start_i, end_i] represents an inclusive time interval during which the lighting requirement must be satisfied.
+// Example 1:
+// Input: n = 5, brightness = 5, intervals = [[6,12]]
+// Output: 14
+// Explanation: Turn on the light bulbs at positions 1 and 4.
+// Example 2:
+// Input: n = 2, brightness = 1, intervals = [[0,0],[2,2]]
+// Output: 2
+// Explanation: Turn on one light bulb during each active interval.
+// Solution:
+// function minEnergy(n, brightness, intervals) {
+//     if (intervals.length === 0) return 0;
+//     intervals.sort((a, b) => a[0] - b[0]);
+//     let total = 0;
+//     let curStart = intervals[0][0];
+//     let curEnd = intervals[0][1];
+//     for (let i = 1; i < intervals.length; i++) {
+//         const [s, e] = intervals[i];
+//         if (s <= curEnd + 1) {
+//             if (e > curEnd) curEnd = e;
+//         } else {
+//             total += curEnd - curStart + 1;
+//             curStart = s;
+//             curEnd = e;
+//         }
+//     }
+//     total += curEnd - curStart + 1;
+//     const bulbsNeeded = Math.ceil(brightness / 3);
+//     return total * bulbsNeeded;
+// }
+// Explanation: Each bulb when on illuminates itself and its immediate neighbors (if they exist). To achieve at least brightness illuminated positions, we need at least ceil(brightness/3) bulbs per time unit because each bulb can cover up to 3 positions. The total energy is the product of the number of bulbs needed per time unit and the total length of the union of intervals (since each time unit in the union requires the same number of bulbs). We compute the union length by sorting and merging intervals.
