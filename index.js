@@ -1034,3 +1034,33 @@ function maxSum(nums, k, mul) {
 //     return total * bulbsNeeded;
 // }
 // Explanation: Each bulb when on illuminates itself and its immediate neighbors (if they exist). To achieve at least brightness illuminated positions, we need at least ceil(brightness/3) bulbs per time unit because each bulb can cover up to 3 positions. The total energy is the product of the number of bulbs needed per time unit and the total length of the union of intervals (since each time unit in the union requires the same number of bulbs). We compute the union length by sorting and merging intervals.
+// Problem: Check Adjacent Digit Differences
+// Example 1:
+// Input: s = "132"
+// Output: true
+// Explanation:
+//   The absolute difference between digits at s[0] and s[1] is abs(1 - 3) = 2.
+//   The absolute difference between digits at s[1] and s[2] is abs(3 - 2) = 1.
+//   Since both differences are at most 2, the answer is true.
+// Example 2:
+// Input: s = "129"
+// Output: false
+// Explanation:
+//   The absolute difference between digits at s[0] and s[1] is abs(1 - 2) = 1.
+//   The absolute difference between digits at s[1] and s[2] is abs(2 - 9) = 7, which is greater than 2.
+//   Therefore, the answer is false.
+// Solution:
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isAdjacentDiffAtMostTwo = function(s) {
+    for (let i = 0; i < s.length - 1; i++) {
+        const diff = Math.abs(s.charCodeAt(i) - s.charCodeAt(i + 1));
+        if (diff > 2) {
+            return false;
+        }
+    }
+    return true;
+};
+// Explanation: We iterate through the string, checking the absolute difference between each pair of adjacent characters. If any difference exceeds 2, we return false. Otherwise, after the loop, we return true.
