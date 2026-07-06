@@ -1162,3 +1162,104 @@ function minEnergy(n, brightness, intervals) {
 // Explanation: Each bulb when on illuminates itself and its immediate neighbors, covering up to 3 positions.
 // To achieve at least brightness illuminated positions per time unit, we need at least ceil(brightness/3) bulbs.
 // The minimum total energy is the product of the total time units covered by the union of intervals and the bulbs needed per unit time.
+
+
+// Problem: Sum of Integers with Maximum Digit Range
+// Link: https://leetcode.com/problems/sum-of-integers-with-maximum-digit-range/
+// Description: You are given an integer array nums. The digit range of an integer is defined as the difference between its largest digit and smallest digit. For example, the digit range of 5724 is 7 - 2 = 5. Return the sum of all integers in nums whose digit range is equal to the maximum digit range among all integers in the array.
+// Example 1:
+// Input: nums = [5724,111,350]
+// Output: 6074
+// Explanation:
+// i   nums[i]   Largest   Smallest   Digit Range
+// 0   5724      7         2          5
+// 1   111       1         1          0
+// 2   350       5         0          5
+// The maximum digit range is 5. The integers with this digit range are 5724 and 350, so the answer is 5724 + 350 = 6074.
+//
+// Example 2:
+// Input: nums = [90,900]
+// Output: 990
+// Explanation:
+// i   nums[i]   Largest   Smallest   Digit Range
+// 0   90        9         0          9
+// 1   900       9         0          9
+// The maximum digit range is 9. Both integers have this digit range, so the answer is 90 + 900 = 990.
+
+// Solution:
+function maxDigitRange(nums) {
+  let maxRange = -1;
+  const ranges = [];
+  for (const num of nums) {
+    let min = 9, max = 0;
+    let n = Math.abs(num);
+    if (n === 0) {
+      min = 0;
+      max = 0;
+    } else {
+      while (n > 0) {
+        const digit = n % 10;
+        if (digit < min) min = digit;
+        if (digit > max) max = digit;
+        n = Math.floor(n / 10);
+      }
+    }
+    const range = max - min;
+    ranges.push(range);
+    if (range > maxRange) maxRange = range;
+  }
+  let sum = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (ranges[i] === maxRange) {
+      sum += nums[i];
+    }
+  }
+  return sum;
+}
+
+// Explanation: We compute the digit range (max digit - min digit) for each number.
+// We track the maximum digit range encountered. Then we sum all numbers whose digit range equals this maximum.
+// Time complexity: O(n * d) where n is the length of nums and d is the maximum number of digits (at most 5 due to constraints).
+
+// Problem: Sum of Integers with Maximum Digit Range (LeetCode #4356 - Easy)
+// Link: https://leetcode.com/problems/sum-of-integers-with-maximum-digit-range/
+// Description: Given an integer array nums, return the sum of all integers whose digit range (max digit - min digit) equals the maximum digit range among all numbers in the array.
+
+// Example 1:
+// Input: nums = [5724,111,350]
+// Output: 6074
+// Explanation: The digit range of 5724 is 7-2=5, of 111 is 0, of 350 is 5-0=5. Max digit range is 5. Sum of numbers with digit range 5: 5724+350=6074.
+
+// Example 2:
+// Input: nums = [90,900]
+// Output: 990
+// Explanation: Digit range of 90 is 9-0=9, of 900 is 9-0=9. Max is 9. Sum is 90+900=990.
+
+// Solution:
+function sumOfNumbersWithMaxDigitRange(nums) {
+  let maxRange = 0;
+  const ranges = [];
+  for (const num of nums) {
+    let minDigit = 9, maxDigit = 0;
+    let n = num;
+    while (n > 0) {
+      const digit = n % 10;
+      if (digit < minDigit) minDigit = digit;
+      if (digit > maxDigit) maxDigit = digit;
+      n = Math.floor(n / 10);
+    }
+    // For numbers like 0? but constraints say >=10, so at least two digits.
+    const range = maxDigit - minDigit;
+    ranges.push(range);
+    if (range > maxRange) maxRange = range;
+  }
+  let sum = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (ranges[i] === maxRange) {
+      sum += nums[i];
+    }
+  }
+  return sum;
+}
+
+// Explanation: We compute the digit range (max digit - min digit) for each number. We track the maximum digit range encountered. Then we sum all numbers whose digit range equals this maximum. Time complexity: O(n * d) where n is length of nums and d is max digits (at most 5 due to constraints). Space complexity: O(n) for storing ranges.
