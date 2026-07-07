@@ -1263,3 +1263,33 @@ function sumOfNumbersWithMaxDigitRange(nums) {
 }
 
 // Explanation: We compute the digit range (max digit - min digit) for each number. We track the maximum digit range encountered. Then we sum all numbers whose digit range equals this maximum. Time complexity: O(n * d) where n is length of nums and d is max digits (at most 5 due to constraints). Space complexity: O(n) for storing ranges.
+\n// Problem:   Count Symmetric Integers — Given two positive integers low and high, return the number of symmetric integers in the range [low, high].
+// Example 1:
+// Input: low = 1, high = 100
+// Output: 9
+// Explanation: There are 9 symmetric integers between 1 and 100: 11, 22, 33, 44, 55, 66, 77, 88, and 99.
+// Example 2:
+// Input: low = 1200, high = 1230
+// Output: 4
+// Explanation: There are 4 symmetric integers between 1200 and 1230: 1203, 1212, 1221, and 1230.
+// Solution:
+// function countSymmetricIntegers(low, high) {
+//   let count = 0;
+//   for (let x = low; x <= high; x++) {
+//     const s = x.toString();
+//     const len = s.length;
+//     if (len % 2 !== 0) continue; // odd number of digits cannot be symmetric
+//     const half = len / 2;
+//     let sumFirst = 0, sumSecond = 0;
+//     for (let i = 0; i < half; i++) {
+//       sumFirst += parseInt(s[i]);
+//       sumSecond += parseInt(s[half + i]);
+//     }
+//     if (sumFirst === sumSecond) {
+//       count++;
+//     }
+//   }
+//   return count;
+// }
+// Explanation: Iterate through each number in the range. Skip numbers with odd digit count. For even-digit numbers, split the string into two halves, compute the sum of digits in each half, and compare. If equal, increment count. Time complexity O((high-low+1) * d) where d is number of digits (max 5 for given constraints). Space complexity O(1).
+\n
