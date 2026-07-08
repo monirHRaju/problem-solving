@@ -1292,4 +1292,31 @@ function sumOfNumbersWithMaxDigitRange(nums) {
 //   return count;
 // }
 // Explanation: Iterate through each number in the range. Skip numbers with odd digit count. For even-digit numbers, split the string into two halves, compute the sum of digits in each half, and compare. If equal, increment count. Time complexity O((high-low+1) * d) where d is number of digits (max 5 for given constraints). Space complexity O(1).
-\n
+\n// Problem: Unique Middle Element (LeetCode #4354 - Easy)
+// Link: https://leetcode.com/problems/unique-middle-element/
+// Description: You are given an integer array nums of odd length n . Return true if the middle element of nums appears exactly once in the array. Otherwise return false . &nbsp; Example 1: Input: nums = [1,2,3] Output: true Explanation: The middle element of nums is 2, which appears exactly once. Thus, the answer is true . Example 2: Input: nums = [1,2,2] Output: false Explanation: The middle element of nums is 2, which appears twice. Thus, the answer is false . &nbsp; Constraints: 1 &lt;= n == nums.length &lt;= 100 n is odd. 1 &lt;= nums[i] &lt;= 100
+
+// Example 1:
+// Input: nums = [1,2,3]
+// Output: true
+// 
+// Example 2:
+// Input: nums = [1,2,2]
+// Output: false
+// 
+// Solution:
+function uniqueMiddleElement(nums) {
+    const n = nums.length;
+    const midIdx = Math.floor(n / 2);
+    const midVal = nums[midIdx];
+    let count = 0;
+    for (const num of nums) {
+        if (num === midVal) {
+            count++;
+        }
+    }
+    return count === 1;
+}
+// Explanation: We find the middle element (at index n//2) and count its occurrences in the array. If the count is exactly 1, return true; otherwise false.
+// Time complexity: O(n), Space complexity: O(1).
+
