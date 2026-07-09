@@ -1353,3 +1353,22 @@ function mergeTwoLists(list1, list2) {
     return dummy.next;
 }
 
+// Problem: Maximum Subarray (LeetCode #53 - Medium)
+// Link: https://leetcode.com/problems/maximum-subarray/
+// Description: Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+// Example 1:
+// Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+// Output: 6
+// 
+// Solution:
+function maxSubArray(nums) {
+    let max = nums[0];
+    let current = nums[0];
+    for (let i = 1; i < nums.length; i++) {
+        current = Math.max(nums[i], current + nums[i]);
+        max = Math.max(max, current);
+    }
+    return max;
+}
+// Explanation: Kadane's algorithm: track current subarray sum and maximum sum.
