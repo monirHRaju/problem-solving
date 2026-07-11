@@ -1393,3 +1393,61 @@ function maxSubArray(nums) {
 // }
 // Explanation: Kadane's algorithm: track current subarray sum and maximum sum.
 
+// Problem: Subsequence After One Replacement (LeetCode #4346 - Medium)\n// Link: https://leetcode.com/problems/subsequence-after-one-replacement/\n// Description: You are given two strings  s  and  t  consisting of lowercase English letters. 
+
+ You may choose  at most  one index in  s  and replace the character at that index with any lowercase English letter. 
+
+ Return  true  if it is possible to make  s  a  subsequence  of  t ; otherwise, return  false . 
+
+   
+  Example 1:  
+
+ 
+  Input:   s = "cat", t = "chat"  
+
+  Output:   true  
+
+  Explanation:  
+
+ 
+	 Replace  s[1]  from  'a'  to  'h' . The resulting string is  "cht" . 
+	  "cht"  is a subsequence of  "chat"  because we can match  'c' ,  'h' , and  't'  in order. 
+ 
+ 
+
+  Example 2:  
+
+ 
+  Input:   s = "plane", t = "apple"  
+
+  Output:   false  
+
+  Explanation:  
+
+ 
+	 The characters  'p' ,  'l' , and  'e'  can be matched in  t , but the remaining characters cannot be matched while preserving the required order. 
+	 Even after replacing any one character in  s , it is impossible to make  s  a subsequence of  t . 
+ 
+ 
+
+   
+  Constraints:  
+
+ 
+	  1 <= s.length, t.length <= 10 5   
+	  s  and  t  consist only of lowercase English letters.\n\n// Example 1:\n// Input: s = &quot;cat&quot;, t = &quot;chat&quot;\n// Output: true\n// Explanation: Replace s[1] from 'a' to 'h'. The resulting string is "cht". "cht" is a subsequence of "chat" because we can match 'c', 'h', and 't' in order.\n// Example 2:\n// Input: s = &quot;plane&quot;, t = &quot;apple&quot;\n// Output: false\n// Explanation: The characters 'p', 'l', and 'e' can be matched in t, but the remaining characters cannot be matched while preserving the required order. Even after replacing any one character in s, it is impossible to make s a subsequence of t.\n\n// Solution:\n/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+function subsequenceAfterOneReplacement(nums) {
+    const n = nums.length;
+    const midIndex = Math.floor(n / 2);
+    const midVal = nums[midIndex];
+    let count = 0;
+    for (const num of nums) {
+        if (num === midVal) {
+            count++;
+        }
+    }
+    return count === 1;
+}\n\n// Explanation: This solution finds the middle element and counts its occurrences in the array. Returns true if count is exactly one, otherwise false.\n
