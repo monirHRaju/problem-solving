@@ -1291,3 +1291,25 @@ function solution() {
     return null;
 }
 // Explanation: Solution for Number of Elapsed Seconds Between Two Times.\n
+
+// Problem: Number of Elapsed Seconds Between Two Times
+// Example 1:
+// Input: ...
+// Output: ...
+// Explanation: ...
+// Solution:
+/**
+ * @param {string} startTime
+ * @param {string} endTime
+ * @return {number}
+ */
+var secondsBetweenTimes = function(startTime, endTime) {
+    const parse = (t) => {
+        const parts = t.split(':');
+        return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+    };
+    const start = parse(startTime);
+    const end = parse(endTime);
+    return end - start;
+};
+// Explanation: Convert times to total seconds and subtract.\n
