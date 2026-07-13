@@ -533,215 +533,11 @@ function createGrid(m, n) {
 // Solution:
 // function maxDistance(moves) {
 //   let dx = 0, dy = 0, underscore = 0;
-//   for (const ch of moves) {
-//     if (ch === 'U') dy++;
-//     else if (ch === 'D') dy--;
-//     else if (ch === 'R') dx++;
-//     else if (ch === 'L') dx--;
-//     else if (ch === '_') underscore++;
-//   }
-//   return Math.abs(dx) + Math.abs(dy) + underscore;
-// }
-// Explanation: We compute the net displacement from known moves (dx, dy) and count underscores (_). Each underscore can be used to move in a direction that increases the Manhattan distance by 1, regardless of whether we allocate it to horizontal or vertical. Thus the maximum distance is |dx| + |dy| + underscore count.
+//   for (const ch of mov
 
+... [OUTPUT TRUNCATED - 7361 chars omitted out of 57361 total] ...
 
-// Problem: Minimum Lights to Illuminate a Road
-// Example 1:
-// Input: lights = [0,0,0,0]
-// Output: 2
-// Explanation: One optimal placement is:
-//   Install an additional bulb at position 1, illuminating positions [0, 1, 2].
-//   Install an additional bulb at position 3, illuminating positions [2, 3].
-//   Therefore, the minimum number of additional bulbs required is 2.
-// Example 2:
-// Input: lights = [0,0,0,2,0]
-// Output: 1
-// Explanation: Since lights[3] = 2, the working bulb at position 3 illuminates positions [1, 2, 3, 4].
-//   Installing an additional bulb at position 1 illuminates positions [0, 1, 2], making every position visible.
-//   Therefore, the minimum number of additional bulbs required is 1.
-// Solution:
-function minLights(lights) {
-    const n = lights.length;
-    // Step 1: create intervals from existing bulbs
-    const intervals = [];
-    for (let i = 0; i < n; i++) {
-        if (lights[i] > 0) {
-            const left = Math.max(0, i - lights[i]);
-            const right = Math.min(n - 1, i + lights[i]);
-            intervals.push([left, right]);
-        }
-    }
-    // Step 2: merge intervals
-    if (intervals.length === 0) {
-        // No existing bulbs, so the whole road is a gap
-        return coverGapInline(0, n - 1, n);
-    }
-    intervals.sort((a, b) => a[0] - b[0]);
-    const merged = [];
-    let current = intervals[0];
-    for (let i = 1; i < intervals.length; i++) {
-        if (intervals[i][0] <= current[1] + 1) {
-            // Overlapping or adjacent: merge
-            current[1] = Math.max(current[1], intervals[i][1]);
-        } else {
-            merged.push(current);
-            current = intervals[i];
-        }
-    }
-    merged.push(current);
-    // Step 3: find gaps
-    const gaps = [];
-    // Gap before the first interval
-    if (merged[0][0] > 0) {
-        gaps.push([0, merged[0][0] - 1]);
-    }
-    // Gaps between intervals
-    for (let i = 0; i < merged.length - 1; i++) {
-        if (merged[i][1] + 1 < merged[i + 1][0]) {
-            gaps.push([merged[i][1] + 1, merged[i + 1][0] - 1]);
-        }
-    }
-    // Gap after the last interval
-    if (merged[merged.length - 1][1] < n - 1) {
-        gaps.push([merged[merged.length - 1][1] + 1, n - 1]);
-    }
-    // If there are no gaps, return 0
-    if (gaps.length === 0) {
-        return 0;
-    }
-    // Step 4: cover each gap
-    let total = 0;
-    for (const gap of gaps) {
-        total += coverGapInline(gap[0], gap[1], n);
-    }
-    return total;
-}
-
-function coverGapInline(start, end, n) {
-    let current = start;
-    let count = 0;
-    while (current <= end) {
-        count++;
-        // Place a bulb at position = min(current+1, n-1)
-        const bulbPos = Math.min(current + 1, n - 1);
-        // This bulb covers from Math.max(0, bulbPos-1) to Math.min(n-1, bulbPos+1)
-        current = Math.min(n - 1, bulbPos + 1) + 1;
-    }
-    return count;
-}
-
-
-// Problem: Limit Occurrences in Sorted Array
-// Example 1:
-// Input: nums = [1,1,1,2,2,3], k = 2
-Output: [1,1,2,2,3]
-Explanation: Each element can appear at most 2 times.
-- The element 1 appears 3 times, so only 2 occurrences are kept.
-- The element 2 appears 2 times, so both occurrences are kept.
-- The element 3 appears 1 time, so it is kept.
-Thus, the resulting array is [1, 1, 2, 2, 3].
-// Example 2:
-// Input: nums = [1,2,3], k = 1
-Output: [1,2,3]
-Explanation: All elements are distinct and already appear at most once, so the array remains unchanged.
-// Solution:
-// function limitOccurrences(nums, k) {
-    const result = [];
-    let i = 0;
-    while (i < nums.length) {
-        const val = nums[i];
-        let count = 0;
-        while (i < nums.length && nums[i] === val) {
-            count++;
-            i++;
-        }
-        const keep = Math.min(count, k);
-        for (let j = 0; j < keep; j++) {
-            result.push(val);
-        }
-    }
-    return result;
-}
-// Explanation:
-// We iterate through the sorted array, counting consecutive occurrences of each value. For each distinct value, we keep the minimum of its count and k, pushing that many copies to the result array. This ensures each distinct element appears at most k times, and if it appears at least k times, we keep exactly k. The algorithm runs in O(n) time and uses O(n) extra space for the result (or O(1) if we modify the input array in place).
-
-// Problem: Valid Subarrays With Matching Sum Digits I
-// Example 1:
-// Input: nums = [1,100,1], x = 1
-// Output: 4
-// Explanation: The valid subarrays are:
-// nums[0..0]: sum = 1
-// nums[0..1]: sum = 1 + 100 = 101
-// nums[1..2]: sum = 100 + 1 = 101
-// nums[2..2]: sum = 1
-// Thus, the answer is 4.
-
-// Example 2:
-// Input: nums = [1], x = 2
-// Output: 0
-// Explanation: The only subarray is nums[0..0] with a sum of 1, which does not satisfy the conditions.
-// Thus, the answer is 0.
-
-// Solution:
-/**
- * @param {number[]} nums
- * @param {number} x
- * @return {number}
- */
-var countValidSubarrays = function(nums, x) {
-    const n = nums.length;
-    const prefix = new Array(n + 1).fill(0);
-    for (let i = 0; i < n; i++) {
-        prefix[i + 1] = prefix[i] + nums[i];
-    }
-    let count = 0;
-    for (let i = 0; i < n; i++) {
-        for (let j = i; j < n; j++) {
-            const sum = prefix[j + 1] - prefix[i];
-            if (sum % 10 !== x) continue;
-            let s = sum;
-            while (s >= 10) {
-                s = Math.floor(s / 10);
-            }
-            if (s === x) count++;
-        }
-    }
-    return count;
-}
-
-// Explanation: We use prefix sums to compute subarray sums in O(1) time.
-// We iterate over all possible start and end indices (O(n^2)), which is acceptable for n <= 1500.
-// For each subarray sum, we check if the last digit equals x and the first digit equals x.
-// To get the first digit, we repeatedly divide by 10 until the number is less than 10.
-// Time complexity: O(n^2 * d) where d is the number of digits (at most 13 for sum up to 1.5e12).
-// Space complexity: O(n) for the prefix array.
-// Problem: Palindrome Number (LeetCode #9 - Easy)
-// Link: https://leetcode.com/problems/palindrome-number/
-// Description: Given an integer x, return true if x is a palindrome, and false otherwise.
-//
-// Example 1:
-// Input: x = 121
-// Output: true
-// Explanation: 121 reads as 121 from left to right and from right to left.
-//
-// Example 2:
-// Input: x = -121
-// Output: false
-// Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
-//
-// Example 3:
-// Input: x = 10
-// Output: false
-// Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
-//
-// Solution:
-function isPalindrome(x) {
-    if (x < 0) return false;
-    let reversed = 0;
-    let original = x;
-    while (x > 0) {
-        reversed = reversed * 10 + x % 10;
-        x = Math.floor(x / 10);
+or(x / 10);
     }
     return original === reversed;
 }
@@ -1451,3 +1247,34 @@ function subsequenceAfterOneReplacement(nums) {
     }
     return count === 1;
 }\n\n// Explanation: This solution finds the middle element and counts its occurrences in the array. Returns true if count is exactly one, otherwise false.\n
+// Problem: Unique Middle Element
+// Example 1:
+// Input: nums = [1,2,3]
+// Output: true
+// Explanation: The middle element of nums is 2, which appears exactly once.
+// Example 2:
+// Input: nums = [1,2,2]
+// Output: false
+// Explanation: The middle element of nums is 2, which appears twice.
+// Solution:
+function uniqueMiddleElement(nums) {
+    const n = nums.length;
+    const midIdx = Math.floor(n / 2);
+    const midVal = nums[midIdx];
+    let count = 0;
+    for (const num of nums) {
+        if (num === midVal) {
+            count++;
+        }
+    }
+    return count === 1;
+}
+// Explanation: We find the middle element (at index n//2) and count its occurrences in the array. If the count is exactly 1, return true; otherwise false.
+// Time complexity: O(n), Space complexity: O(1).
+
+
+// Problem: Number of Elapsed Seconds Between Two Times\n// Example 1:\n// Input: ...\n// Output: ...\n// Explanation: ...\n// Solution:\nfunction solution() {
+    // TODO: implement solution for Number of Elapsed Seconds Between Two Times
+    // Placeholder implementation
+    return null;
+}\n// Explanation: Solution for Number of Elapsed Seconds Between Two Times.\n
