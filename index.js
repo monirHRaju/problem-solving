@@ -1313,3 +1313,20 @@ var secondsBetweenTimes = function(startTime, endTime) {
     return end - start;
 };
 // Explanation: Convert times to total seconds and subtract.\n
+
+
+// Problem: Even Number of Knight Moves
+// Link: https://leetcode.com/problems/even-number-of-knight-moves/
+// Description: You are given two integer arrays start and target, each of the form [x, y] representing a cell on an 8x8 chessboard. Return true if a knight can move from start to target in an even number of moves, otherwise false.
+// Solution:
+/**
+ * @param {number[]} start
+ * @param {number[]} target
+ * @return {boolean}
+ */
+var canReach = function(start, target) {
+    const startParity = (start[0] + start[1]) % 2;
+    const targetParity = (target[0] + target[1]) % 2;
+    return startParity === targetParity;
+};
+// Explanation: A knight always changes the color of the square it occupies with each move. Therefore, after an even number of moves, the knight will be on a square of the same color as the starting square. The color of a square (x, y) is determined by (x + y) % 2. Hence, the target must have the same color parity as the start for an even number of moves to be possible.
