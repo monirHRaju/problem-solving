@@ -1330,3 +1330,36 @@ var canReach = function(start, target) {
     return startParity === targetParity;
 };
 // Explanation: A knight always changes the color of the square it occupies with each move. Therefore, after an even number of moves, the knight will be on a square of the same color as the starting square. The color of a square (x, y) is determined by (x + y) % 2. Hence, the target must have the same color parity as the start for an even number of moves to be possible.
+
+// Problem: Maximum Value of an Alternating Sequence (LeetCode #4364 - Medium)
+// Link: https://leetcode.com/problems/maximum-value-of-an-alternating-sequence/
+// Description: You are given three integers n, s, and m. A sequence seq of length n is considered valid if:
+//   - seq[0] = s.
+//   - The sequence is alternating, meaning that either:
+//       * seq[0] > seq[1] < seq[2] > ... , or
+//       * seq[0] < seq[1] > seq[2] < ... .
+//   - For every adjacent pair, |seq[i] - seq[i-1]| <= m.
+//   A sequence of length 1 is considered alternating.
+//   Return the maximum possible element that can appear in any valid sequence.
+//
+// Example 1:
+// Input: n = 4, s = 3, m = 5
+// Output: 12
+// Explanation: One valid sequence is [3, 8, 7, 12]. The maximum element in the sequence is 12.
+//
+// Example 2:
+// Input: n = 2, s = 4, m = 3
+// Output: 7
+// Explanation: One valid sequence is [4, 7]. The maximum element in the sequence is 7.
+//
+// Solution:
+function maxValueOfAlternatingSequence(n, s, m) {
+    if (n === 1) return s;
+    const u = Math.ceil((n - 1) / 2);
+    return s + u * (m - 1) + 1;
+// Explanation: To maximize the maximum element, we start with an increasing step (first relation <). 
+// We maximize each increase by m and minimize each decrease by 1 (since differences must be at least 1). 
+// With n-1 steps, there are ceil((n-1)/2) increases and floor((n-1)/2) decreases. 
+// The peak occurs after the last increase, yielding value = s + (number of increases)*m - (number of decreases before that increase)*1. 
+// This simplifies to s + u*(m-1) + 1 for n >= 2.
+}
