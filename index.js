@@ -1363,3 +1363,16 @@ function maxValueOfAlternatingSequence(n, s, m) {
 // The peak occurs after the last increase, yielding value = s + (number of increases)*m - (number of decreases before that increase)*1. 
 // This simplifies to s + u*(m-1) + 1 for n >= 2.
 }
+/* Two Sum */
+var twoSum = function(nums, target) {
+    const map = new Map();
+    for (let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i];
+        if (map.has(complement)) {
+            return [map.get(complement), i];
+        }
+        map.set(nums[i], i);
+    }
+    return [];
+};
+
