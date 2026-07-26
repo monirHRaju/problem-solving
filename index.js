@@ -1376,3 +1376,47 @@ var twoSum = function(nums, target) {
     return [];
 };
 
+// Problem: Count Dominant Nodes in a Binary Tree (LeetCode #4358 - Medium)
+// Link: https://leetcode.com/problems/count-dominant-nodes-in-a-binary-tree/
+// Description: You are given the root of a complete binary tree.
+
+A node x is called dominant if its value is equal to the maximum value among all nodes in the subtree rooted at x.
+
+Return the number of dominant nod.
+//
+// Example 1:
+// Input: root = [5,3,8,2,4,7,1]
+// Output: 5
+// Explanation: The leaf nodes with values 2, 4, 7, and 1 are dominant. The node with value 8 is dominant because its value is the maximum value in its subtree [8, 7, 1]. Thus, the answer is 5.
+//
+//
+// Solution:
+///**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var countDominantNodes = function(root) {
+    let count = 0;
+    function dfs(node) {
+        if (!node) return -Infinity;
+        const leftMax = dfs(node.left);
+        const rightMax = dfs(node.right);
+        const max = Math.max(node.val, leftMax, rightMax);
+        if (node.val === max) {
+            count++;
+        }
+        return max;
+    }
+    dfs(root);
+    return count;
+};
+
+// Explanation: We perform a post‑order DFS, returning the maximum value in each subtree. Whenever a node’s value equals that maximum, it is dominant and we increment a counter.
