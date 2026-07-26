@@ -1420,3 +1420,41 @@ var countDominantNodes = function(root) {
 };
 
 // Explanation: We perform a post‑order DFS, returning the maximum value in each subtree. Whenever a node’s value equals that maximum, it is dominant and we increment a counter.
+
+// Problem: Reverse Integer (LeetCode #7 - Medium)
+// Link: https://leetcode.com/problems/reverse-integer/
+// Description: Given a signed 32-bit integer x , return x with its digits reversed . If reversing x causes the value to go outside the signed 32-bit integer range [-2 31 , 2 31 - 1] , then return 0 . Assume the...
+
+// Example 1:
+// Input: x = 123
+// Output: 321
+//
+// Example 2:
+// Input: x = -123
+// Output: -321
+//
+// Example 3:
+// Input: x = 120
+// Output: 21
+//
+// Solution:
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function(x) {
+    let rev = 0;
+    while (x !== 0) {
+        const pop = x % 10;
+        x = Math.trunc(x / 10);
+        if (rev > Math.floor(0x7fffffff/10) || (rev === Math.floor(0x7fffffff/10) && pop > 7)) return 0;
+        if (rev < Math.ceil(-0x80000000/10) || (rev === Math.ceil(-0x80000000/10) && pop < -8)) return 0;
+        rev = rev * 10 + pop;
+    }
+    return rev;
+};
+
+// Explanation: We reverse the digits of x by repeatedly extracting the last digit and building the reversed number.
+// Before adding each digit, we check for overflow against 32-bit signed integer limits.
+// If overflow would occur, we return 0.
+// Time complexity: O(log_10(|x|)), space complexity: O(1).
