@@ -1458,3 +1458,41 @@ var reverse = function(x) {
 // Before adding each digit, we check for overflow against 32-bit signed integer limits.
 // If overflow would occur, we return 0.
 // Time complexity: O(log_10(|x|)), space complexity: O(1).
+\n\n// Problem: Rearrange String to Avoid Character Pair (LeetCode #4355 - Easy)
+// Link: https://leetcode.com/problems/rearrange-string-to-avoid-character-pair/
+// Description: You are given a string s and two distinct lowercase English letters x and y. Rearrange the characters of s to construct a new string t such that t is a permutation of s and every occurrence of y appears before every occurrence of x in t. Return any valid string t.
+//
+// Example 1:
+// Input: s = "aabc", x = "a", y = "c"
+// Output: "cbaa"
+// Explanation: "cbaa" is a permutation of "aabc", and every 'c' appears before every 'a'.
+//
+// Example 2:
+// Input: s = "dcab", x = "d", y = "b"
+// Output: "cabd"
+// Explanation: "cabd" is a permutation of "dcab", and every 'b' appears before every 'd'.
+//
+// Example 3:
+// Input: s = "axe", x = "o", y = "x"
+// Output: "axe"
+// Explanation: "axe" is already valid. Since 'o' does not occur in the string, the condition is automatically satisfied.
+//
+// Solution:
+/**
+ * @param {string} s
+ * @param {string} x
+ * @param {string} y
+ * @return {string}
+ */
+var rearrangeString = function(s, x, y) {
+    const arr = [...s];
+    arr.sort((a, b) => {
+        if (a === y) return -1;
+        if (a === x) return 1;
+        if (b === y) return 1;
+        if (b === x) return -1;
+        return 0;
+    });
+    return arr.join('');
+};
+// Explanation: We sort the characters with a custom comparator that treats 'y' as smallest, 'x' as largest, and other characters as middle. This ensures all y's come before any x's, satisfying the condition. Time complexity O(n log n), space O(n).
