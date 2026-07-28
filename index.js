@@ -1496,3 +1496,39 @@ var rearrangeString = function(s, x, y) {
     return arr.join('');
 };
 // Explanation: We sort the characters with a custom comparator that treats 'y' as smallest, 'x' as largest, and other characters as middle. This ensures all y's come before any x's, satisfying the condition. Time complexity O(n log n), space O(n).
+
+// Problem: Largest Integer With Given Digit Sum
+// Link: https://leetcode.com/problems/largest-integer-with-given-digit-sum/
+// Example 1:
+// Input: n = 2, s = 9
+// Output: 90
+// Explanation: The largest integer with at most 2 digits that has a sum of digits of 9 is 90.
+// Example 2:
+// Input: n = 2, s = 19
+// Output: -1
+// Explanation: There is no integer with at most 2 digits that has a sum of digits of 19, so the answer is -1.
+// Example 3:
+// Input: n = 5, s = 0
+// Output: 0
+// Explanation: The only non-negative integer whose digits sum to 0 is 0.
+// Solution:
+function largestInteger(n, s) {
+    if (s > 9 * n) return -1;
+    if (s === 0) return 0;
+    let result = '';
+    let remaining = s;
+    for (let i = 0; i < n; i++) {
+        const positionsLeft = n - i - 1;
+        for (let d = 9; d >= 0; d--) {
+            if (remaining - d >= 0 && remaining - d <= 9 * positionsLeft) {
+                result += String(d);
+                remaining -= d;
+                break;
+            }
+        }
+    }
+    // Convert string to number (leading zeros are dropped automatically)
+    return parseInt(result, 10);
+}
+// Explanation:
+We use a greedy approach: iterate over each digit position from most significant to least. At each position, we try to place the largest digit d (from 9 down to 0) such that the remaining sum (s - d) can be achieved with the remaining positions (each digit can contribute at most 9). This ensures the resulting number is as large as possible. If the total sum exceeds the maximum possible sum (9 * n), we return -1. If the sum is zero, the answer is 0.
