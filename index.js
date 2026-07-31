@@ -1532,3 +1532,54 @@ function largestInteger(n, s) {
 }
 // Explanation:
 We use a greedy approach: iterate over each digit position from most significant to least. At each position, we try to place the largest digit d (from 9 down to 0) such that the remaining sum (s - d) can be achieved with the remaining positions (each digit can contribute at most 9). This ensures the resulting number is as large as possible. If the total sum exceeds the maximum possible sum (9 * n), we return -1. If the sum is zero, the answer is 0.
+
+// Problem: Even Number of Knight Moves
+// Link: https://leetcode.com/problems/even-number-of-knight-moves/
+// Description: You are given two integer arrays start and target, where each array is of the form [x, y] representing a cell on a standard 8 x 8 chessboard.
+// Return true if a knight can move from start to target in an even number of moves. Otherwise, return false.
+// Note: A valid knight move consists of moving two squares in one direction and one square perpendicular to it.
+//
+// Example 1:
+// Input: start = [1,1], target = [2,2]
+// Output: true
+// Explanation:
+// One possible sequence of moves is (1, 1) -> (3, 2) -> (2, 4) -> (4, 3) -> (2, 2).
+// The knight reaches the target in 4 moves, which is even. Thus, the answer is true.
+//
+// Example 2:
+// Input: start = [4,5], target = [6,6]
+// Output: false
+// Explanation:
+// It is impossible to reach target = [6, 6] from start = [4, 5] in an even number of moves. Thus, the answer is false.
+//
+// Constraints:
+//   start.length == target.length == 2
+//   0 <= start[i], target[i] <= 7
+//
+// Solution:
+// A knight always changes the color of the square it occupies with each move (from black to white or white to black).
+// After an even number of moves, the knight is on the same color square as it started.
+// After an odd number of moves, the knight is on the opposite color.
+// Therefore, the knight can reach the target in an even number of moves if and only if the start and target squares are the same color.
+// On a chessboard, square (r, c) is dark if (r + c) % 2 == 0, and light if (r + c) % 2 == 1.
+// So two squares have the same color if (r1 + c1) % 2 == (r2 + c2) % 2.
+//
+// Time complexity: O(1)
+// Space complexity: O(1)
+function checkIfCanReach(start, target) {
+    // Calculate the color of each square (0 for one color, 1 for the other)
+    // Square (r, c) has color (r + c) % 2
+    const startColor = (start[0] + start[1]) % 2;
+    const targetColor = (target[0] + target[1]) % 2;
+    
+    // The knight can reach the target in an even number of moves 
+    // if and only if both squares are the same color
+    return startColor === targetColor;
+}
+
+// Explanation: The key insight is that a knight always changes the color of the square it occupies with each move.
+// After an even number of moves, the knight is on the same color square as it started.
+// After an odd number of moves, it's on the opposite color.
+// Therefore, to reach the target in an even number of moves, start and target must be the same color.
+// We determine the color of a square by (row + column) % 2. If both squares have the same color value,
+// then the answer is true; otherwise, it's false. This solution runs in constant time and space.
