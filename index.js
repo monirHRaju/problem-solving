@@ -1583,3 +1583,20 @@ function checkIfCanReach(start, target) {
 // Therefore, to reach the target in an even number of moves, start and target must be the same color.
 // We determine the color of a square by (row + column) % 2. If both squares have the same color value,
 // then the answer is true; otherwise, it's false. This solution runs in constant time and space.
+
+// Problem: Even Number of Knight Moves (LeetCode #3996 - Easy)
+// Link: https://leetcode.com/problems/even-number-of-knight-moves/
+// Description: You are given two integer arrays start and target, each of length 2, representing the coordinates of a cell on an 8x8 chessboard. Return true if a knight can move from the start cell to the target cell in an even number of moves, otherwise return false.
+// Example 1:
+// Input: start = [1,1], target = [2,2]
+// Output: true
+// Explanation: One possible sequence of moves is (1,1) -> (3,2) -> (2,4) -> (4,3) -> (2,2). The knight reaches the target in 4 moves, which is even. Thus, the answer is true.
+// Example 2:
+// Input: start = [4,5], target = [6,6]
+// Output: false
+// Explanation: It is impossible to reach target = [6,6] from start = [4,5] in an even number of moves. Thus, the answer is false.
+// Solution:
+function evenNumberOfKnightMoves(start, target) {
+  return ((start[0]+start[1])&1) === ((target[0]+target[1])&1);
+}
+// Explanation: Each knight move changes the sum of coordinates by an odd number (specifically ±1 or ±3), thus flipping the parity of (x+y). After an even number of moves, the parity remains the same as the start. Therefore, the target is reachable in an even number of moves iff the parity of the sum of coordinates of start and target are equal.
