@@ -1600,3 +1600,29 @@ function evenNumberOfKnightMoves(start, target) {
   return ((start[0]+start[1])&1) === ((target[0]+target[1])&1);
 }
 // Explanation: Each knight move changes the sum of coordinates by an odd number (specifically ±1 or ±3), thus flipping the parity of (x+y). After an even number of moves, the parity remains the same as the start. Therefore, the target is reachable in an even number of moves iff the parity of the sum of coordinates of start and target are equal.
+
+// Problem: Count Valid Prefixes
+// Link: https://leetcode.com/problems/count-valid-prefixes/
+// Example 1:
+// Input: s = "00101"
+// Output: 3
+// Explanation: The valid prefixes are "0", "001", and "00101".
+// Example 2:
+// Input: s = "101"
+// Output: 3
+// Explanation: All prefixes are already alternating.
+// Solution:
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var countValidPrefixes = function(s) {
+    let zeros = 0, ones = 0, ans = 0;
+    for (const ch of s) {
+        if (ch === '0') zeros++;
+        else ones++;
+        if (Math.abs(zeros - ones) <= 1) ans++;
+    }
+    return ans;
+};
+// Explanation: For a prefix to be rearrangeable into an alternating string, the counts of '0' and '1' must differ by at most 1. We iterate through the string, maintaining running counts of zeros and ones. For each prefix (after each character), we check if |zeros - ones| <= 1. If true, we increment the answer.
