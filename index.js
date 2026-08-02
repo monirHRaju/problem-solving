@@ -1626,3 +1626,77 @@ var countValidPrefixes = function(s) {
     return ans;
 };
 // Explanation: For a prefix to be rearrangeable into an alternating string, the counts of '0' and '1' must differ by at most 1. We iterate through the string, maintaining running counts of zeros and ones. For each prefix (after each character), we check if |zeros - ones| <= 1. If true, we increment the answer.
+
+// Problem: Widest Possible Fence (LeetCode #4362 - Medium)
+// Link: https://leetcode.com/problems/widest-possible-fence/
+// Description: You are given an integer array planks, where planks[i] represents the height of the ith wooden plank. Each plank has a width of 1 unit.
+You want to build a fence consisting of planks that all have the...
+
+// Example 1:
+// Input: planks = [1,3,2,5,7,5,4,2,1]
+// Output: 4
+// Explanation: We can have four planks of height 5.
+//
+// Example 2:
+// Input: planks = [2,3,7]
+// Output: 1
+// Explanation: It is impossible to form two planks of the same height, even after combining two distinct original planks.
+// Since not all original planks need to be used, we can choose any one plank as the fence.
+//
+// Solution:
+/**
+ * @param {number[]} planks
+ * @return {number}
+ */
+function widestPossibleFence(planks) {
+    const freq = new Map();
+    for (const p of planks) {
+        freq.set(p, (freq.get(p) || 0) + 1);
+    }
+    const values = Array.from(freq.keys());
+    const candidates = new Set();
+    // Add each height itself
+    for (const v of values) {
+        candidates.add(v);
+    }
+    // Add sums of two values (including same)
+    for (let i = 0; i < values.length; i++) {
+        for (let j = i; j < values.length; j++) {
+            const sum = values[i] + values[j];
+            candidates.add(sum);
+        }
+    }
+    let maxWidth = 0;
+    for (const target of candidates) {
+        let width = 0;
+        // singles: planks equal to target
+        const single = freq.get(target) || 0;
+        width += single;
+        // pairs: we need to avoid double counting
+        const visited = new Set();
+        for (const [v, cnt] of freq) {
+            if (visited.has(v)) continue;
+            const complement = target - v;
+            if (!freq.has(complement)) continue;
+            if (v === complement) {
+                // same value, pairs within same value
+                const pairs = Math.floor(cnt / 2);
+                width += pairs; // each pair contributes one plank
+                visited.add(v);
+            } else if (v < complement) {
+                // different values
+                const cntComp = freq.get(complement);
+                const pairs = Math.min(cnt, cntComp);
+                width += pairs; // each pair contributes one plank
+                visited.add(v);
+                visited.add(complement);
+            }
+            // if v > complement, it will be handled when we encounter complement
+        }
+        if (width > maxWidth) {
+            maxWidth = width;
+        }
+    }
+    return maxWidth;
+}
+// Explanation: We count frequencies of each plank length. For each possible target height (either a single plank height or sum of two distinct planks), we compute how many planks of that height we can form: singles (planks exactly equal to target) plus pairs (two planks summing to target). Each pair uses two planks but yields one plank of target height. We maximize the total number of such planks (width). Complexity O(n^2) where n is number of distinct lengths, acceptable for n ≤ 1000.
