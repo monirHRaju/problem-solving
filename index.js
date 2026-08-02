@@ -1700,3 +1700,79 @@ function widestPossibleFence(planks) {
     return maxWidth;
 }
 // Explanation: We count frequencies of each plank length. For each possible target height (either a single plank height or sum of two distinct planks), we compute how many planks of that height we can form: singles (planks exactly equal to target) plus pairs (two planks summing to target). Each pair uses two planks but yields one plank of target height. We maximize the total number of such planks (width). Complexity O(n^2) where n is number of distinct lengths, acceptable for n ≤ 1000.
+
+// Problem: Widest Possible Fence (LeetCode #4362 - Medium)
+// Link: https://leetcode.com/problems/widest-possible-fence/
+// Description: You are given an integer array planks, where planks[i] represents the height of the ith wooden plank. Each plank has a width of 1 unit.
+You want to build a fence consisting of planks that all have the...
+//
+// Example 1:
+// Input: planks = [1,3,2,5,7,5,4,2,1]
+// Output: 4
+// 
+// Example 2:
+// Input: planks = [2,3,7]
+// Output: 1
+// 
+// Solution:
+/**
+ * @param {number[]} planks
+ * @return {number}
+ */
+function widestPossibleFence(planks) {
+    // Frequency map
+    const freq = new Map();
+    for (const p of planks) {
+        freq.set(p, (freq.get(p) || 0) + 1);
+    }
+    const values = Array.from(freq.keys());
+    // Candidate target heights: each height and sum of any two heights
+    const candidates = new Set();
+    for (const v of values) {
+        candidates.add(v);
+    }
+    for (let i = 0; i < values.length; i++) {
+        for (let j = i; j < values.length; j++) {
+            const sum = values[i] + values[j];
+            candidates.add(sum);
+        }
+    }
+    let maxWidth = 0;
+    for (const target of candidates) {
+        let width = 0;
+        // Singles: planks exactly equal to target
+        const single = freq.get(target) || 0;
+        width += single;
+        // Pairs: we need to avoid double counting
+        const visited = new Set();
+        for (const [v, cnt] of freq) {
+            if (visited.has(v)) continue;
+            const complement = target - v;
+            if (!freq.has(complement)) continue;
+            if (v === complement) {
+                // Pair within same value
+                const pairs = Math.floor(cnt / 2);
+                width += pairs; // each pair contributes one plank
+                visited.add(v);
+            } else if (v < complement) {
+                // Different values
+                const cntComp = freq.get(complement);
+                const pairs = Math.min(cnt, cntComp);
+                width += pairs; // each pair contributes one plank
+                visited.add(v);
+                visited.add(complement);
+            }
+            // If v > complement, it will be handled when we encounter complement
+        }
+        if (width > maxWidth) {
+            maxWidth = width;
+        }
+    }
+    return maxWidth;
+}
+// Explanation: We consider each possible target height H (either a plank height or sum of two planks). 
+// For each H, we count how many planks can be used: planks with height exactly H (used singly) 
+// plus pairs of planks (h1, h2) where h1 + h2 = H (each pair uses two planks and yields one plank of height H). 
+// We maximize the total number of resulting planks (width). 
+// Time complexity: O(n^2) where n is number of distinct plank heights (≤ 1000). 
+// Space complexity: O(n).
