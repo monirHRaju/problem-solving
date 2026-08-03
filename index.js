@@ -1776,4 +1776,84 @@ function widestPossibleFence(planks) {
 // We maximize the total number of resulting planks (width). 
 // Time complexity: O(n^2) where n is number of distinct plank heights (≤ 1000). 
 // Space complexity: O(n).
-// Problem: Palindrome Number — Example 1:\n// Example 1:\n// Input: x = 121\n// Output: true\n// Explanation: 121 reads as 121 from left to right and from right to left.\n\n// Example 2:\n// Input: x = -121\n// Output: false\n// Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.\n\n// Example 3:\n// Input: x = 10\n// Output: false\n// Explanation: Reads 01 from right to left. Therefore it is not a palindrome.\n\n// Solution:\nfunction isPalindrome(x) {\n    // Negative numbers are not palindrome\n    if (x < 0) {\n        return false;\n    }\n    // Special case: numbers ending with 0 but not 0 itself are not palindrome\n    if (x % 10 === 0 && x !== 0) {\n        return false;\n    }\n    let revertedNumber = 0;\n    while (x > revertedNumber) {\n        revertedNumber = revertedNumber * 10 + x % 10;\n        x = Math.floor(x / 10);\n    }\n    // When the length is an odd number, we can get rid of the middle digit by revertedNumber/10\n    return x === revertedNumber || x === Math.floor(revertedNumber / 10);\n}\n\n// Explanation: We avoid converting the integer to a string. Instead, we reverse half of the number and compare it with the other half. If the number has odd length, we can remove the middle digit by dividing reversed number by 10. For negative numbers, they cannot be palindrome. Numbers ending with zero (except zero itself) are not palindrome because reversing would lead with zero.\n
+// Problem: Palindrome Number — Example 1:\n// Example 1:\n// Input: x = 121\n// Output: true\n// Explanation: 121 reads as 121 from left to right and from right to left.\n\n// Example 2:\n// Input: x = -121\n// Output: false\n// Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.\n\n// Example 3:\n// Input: x = 10\n// Output: false\n// Explanation: Reads 01 from right to left. Therefore it is not a palindrome.\n\n// Solution:\nfunction isPalindrome(x) {\n    // Negative numbers are not palindrome\n    if (x < 0) {\n        return false;\n    }\n    // Special case: numbers ending with 0 but not 0 itself are not palindrome\n    if (x % 10 === 0 && x !== 0) {\n        return false;\n    }\n    let revertedNumber = 0;\n    while (x > revertedNumber) {\n        revertedNumber = revertedNumber * 10 + x % 10;\n        x = Math.floor(x / 10);\n    }\n    // When the length is an odd number, we can get rid of the middle digit by revertedNumber/10\n    return x === revertedNumber || x === Math.floor(revertedNumber / 10);\n}\n\n// Explanation: We avoid converting the integer to a string. Instead, we reverse half of the number and compare it with the other half. If the number has odd length, we can remove the middle digit by dividing reversed number by 10. For negative numbers, they cannot be palindrome. Numbers ending with zero (except zero itself) are not palindrome because reversing would lead with zero.\n\n// Problem: Maximize Pair Strength Using GCD (LeetCode #4371 - Easy)
+// Link: https://leetcode.com/problems/maximize-pair-strength-using-gcd/
+// Description: You are given an integer array nums. Choose exactly one pair of distinct indices i and j. The strength of the pair is defined as (nums[i] * nums[j]) / gcd(nums[i], nums[j])^2. Return the maximum strength over all possible pairs.
+
+// Example 1:
+// Input: nums = [2,3,5]
+Output: 15
+Explanation: Choosing i = 1 and j = 2 gives strength (3 * 5) / gcd(3,5)^2 = 15 / 1 = 15, which is the maximum over all pairs.
+// 
+// Example 2:
+// Input: nums = [4,6,8]
+Output: 12
+Explanation: Choosing i = 1 and j = 2 gives strength (6 * 8) / gcd(6,8)^2 = 48 / 4 = 12, which is the maximum over all pairs.
+// 
+// Example 3:
+// Input: nums = [3,3]
+Output: 1
+Explanation: Choosing i = 0 and j = 1 gives strength (3 * 3) / gcd(3,3)^2 = 9 / 9 = 1, the maximum over all pairs.
+// 
+// Solution:
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxScore = function(nums) {
+    let max = 0;
+    const n = nums.length;
+    const gcd = (a, b) => {
+        while (b) {
+            let t = b;
+            b = a % b;
+            a = t;
+        }
+        return a;
+    };
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            const a = nums[i];
+            const b = nums[j];
+            const g = gcd(a, b);
+            const strength = (a * b) / (g * g);
+            if (strength > max) max = strength;
+        }
+    }
+    return max;
+};
+// Explanation: We iterate over all pairs (i, j) with i < j. For each pair we compute g = gcd(nums[i], nums[j]). The strength is (a*b)/(g*g). We keep track of the maximum strength. Since n <= 2000, O(n^2) is acceptable.
+
+// Problem: Best Time to Buy and Sell Stock (LeetCode #121 - Easy)
+// Link: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+// Description: You are given an array prices where prices[i] is the price of a given stock on the ith day.
+// You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+// Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+//
+// Example 1:
+// Input: prices = [7,1,5,3,6,4]
+// Output: 5
+// Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+//
+// Example 2:
+// Input: prices = [7,6,4,3,1]
+// Output: 0
+// Explanation: In this case, no transactions are done and the max profit = 0.
+//
+// Solution:
+function maxProfit(prices) {
+    let minPrice = Infinity;
+    let maxProfit = 0;
+    for (const price of prices) {
+        if (price < minPrice) {
+            minPrice = price;
+        } else if (price - minPrice > maxProfit) {
+            maxProfit = price - minPrice;
+        }
+    }
+    return maxProfit;
+}
+// Explanation: We track the minimum price seen so far and the maximum profit we can get by selling at the current price.
+// For each price, we update the minimum price if the current price is lower.
+// Otherwise, we calculate the profit if we sell at the current price (current price - minPrice) and update maxProfit if this profit is larger.
+// This runs in O(n) time and O(1) space.
