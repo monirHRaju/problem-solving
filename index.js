@@ -1857,3 +1857,47 @@ function maxProfit(prices) {
 // For each price, we update the minimum price if the current price is lower.
 // Otherwise, we calculate the profit if we sell at the current price (current price - minPrice) and update maxProfit if this profit is larger.
 // This runs in O(n) time and O(1) space.
+
+// Problem: Maximize Pair Strength Using GCD
+// Link: https://leetcode.com/problems/maximize-pair-strength-using-gcd/
+// Description: You are given an integer array nums. Choose exactly one pair of distinct indices i and j. The strength of the pair is defined as (nums[i] * nums[j]) / gcd(nums[i], nums[j])^2. Return the maximum strength over all possible pairs.
+// Example 1:
+// Input: nums = [2,3,5]
+// Output: 15
+// Explanation: Choosing i = 1 and j = 2 gives strength (3 * 5) / gcd(3, 5)^2 = 15 / 1 = 15, which is the maximum over all pairs.
+// Example 2:
+// Input: nums = [4,6,8]
+// Output: 12
+// Explanation: Choosing i = 1 and j = 2 gives strength (6 * 8) / gcd(6, 8)^2 = 48 / 4 = 12, which is the maximum over all pairs.
+// Example 3:
+// Input: nums = [3,3]
+// Output: 1
+// Explanation: Choosing i = 0 and j = 1 gives strength (3 * 3) / gcd(3, 3)^2 = 9 / 9 = 1, the maximum over all pairs.
+// Constraints:
+//   2 <= nums.length <= 2000
+//   1 <= nums[i] <= 10^5
+// Solution:
+function maxStrength(nums) {
+  let max = 0;
+  const n = nums.length;
+  const gcd = (a, b) => {
+    while (b !== 0) {
+      const temp = b;
+      b = a % b;
+      a = temp;
+    }
+    return a;
+  };
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      const a = nums[i];
+      const b = nums[j];
+      const g = gcd(a, b);
+      const strength = (a * b) / (g * g);
+      if (strength > max) max = strength;
+    }
+  }
+  return max;
+}
+// Explanation: We iterate over all distinct pairs (i, j) and compute the strength using the formula (a*b)/(gcd(a,b)^2). We keep track of the maximum strength encountered. The gcd is computed using the Euclidean algorithm. Time complexity is O(n^2 * log(max(nums))) due to gcd operations, which is acceptable for n ≤ 2000.
+
