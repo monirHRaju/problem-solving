@@ -1901,3 +1901,24 @@ function maxStrength(nums) {
 }
 // Explanation: We iterate over all distinct pairs (i, j) and compute the strength using the formula (a*b)/(gcd(a,b)^2). We keep track of the maximum strength encountered. The gcd is computed using the Euclidean algorithm. Time complexity is O(n^2 * log(max(nums))) due to gcd operations, which is acceptable for n ≤ 2000.
 
+// Problem: Even Number of Knight Moves (LeetCode #4369 - Easy)
+// Link: https://leetcode.com/problems/even-number-of-knight-moves/
+// Description: You are given two integer arrays start and target, where each array is of the form [x, y] representing a cell on a standard 8 x 8 chessboard. Return true if a knight can move from start to target in an even number of moves. Otherwise, return false.
+// 
+// Example 1:
+// Input: start = [1,1], target = [2,2]
+// Output: true
+// Explanation: One possible sequence of moves is (1,1) -> (3,2) -> (2,4) -> (4,3) -> (2,2). The knight reaches the target in 4 moves, which is even.
+// 
+// Example 2:
+// Input: start = [4,5], target = [6,6]
+// Output: false
+// Explanation: It is impossible to reach target = [6,6] from start = [4,5] in an even number of moves.
+// 
+// Solution:
+// var canReach = function(start, target) {
+//     const startParity = (start[0] + start[1]) % 2;
+//     const targetParity = (target[0] + target[1]) % 2;
+//     return startParity === targetParity;
+// };
+// Explanation: The knight always changes the color of the square (defined by (x+y) mod 2) with each move. Therefore, after an even number of moves, the knight must be on a square of the same color as the start. Since the chessboard is connected, the knight can reach any square, so the condition is that the start and target have the same color parity.
