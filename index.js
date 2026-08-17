@@ -1949,3 +1949,54 @@ var elevatorRequests = function(n, requests) {
     return total;
 };
 // Explanation: We start at floor 0. For each request, we add the absolute difference between current floor and requested floor to total time, then update current floor to the requested floor. This sums the travel time between consecutive floors (including from start). Time complexity O(requests.length), space O(1).
+
+// Problem: Minimize the Maximum Waiting Time at Synchronized Traffic Lights
+// Link: https://leetcode.com/problems/minimize-the-maximum-waiting-time-at-synchronized-traffic-lights/
+/**
+ * @param {number} period
+ * @param {number[]} lights
+ * @param {number[]} arrivalTime
+ * @return {number}
+*/
+var minPenalty = function(period, lights, arrivalTime) {
+    // Find max and min of lights
+    let maxLight = lights[0];
+    let minLight = lights[0];
+    for (const light of lights) {
+        if (light > maxLight) maxLight = light;
+        if (light < minLight) minLight = light;
+    };
+
+    // Binary search on answer
+    let low = 0;
+    let high = period - 1;
+    while (low < high) {
+        const mid = Math.floor((low + high) / 2);
+        if (feasible(mid, period, maxLight, minLight, arrivalTime)) {
+            high = mid;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return low;
+};
+
+function feasible(maxWait, period, maxLight, minLight, arrivalTime) {
+    for (const t of arrivalTime) {
+        const r = t % period;
+        if (maxLight > r) {
+            // can choose a light with green duration > r => wait 0
+            continue;
+        }
+        // all lights <= r
+        if (period - r <= maxWait) {
+            // wait = period - r <= maxWait
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+
+// Explanation: We binary search on the maximum waiting time (penalty). For a given candidate maxWait, we check if it's feasible to assign each car to a traffic light such that its waiting time <= maxWait. For each car, compute r = arrivalTime % period. If there exists a light with green duration > r, the car can have zero wait. Otherwise, we need to wait for the next green cycle; the wait is period - r, which must be <= maxWait. If any car cannot satisfy, the candidate is infeasible.
+
