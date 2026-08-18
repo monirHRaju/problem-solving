@@ -2000,3 +2000,20 @@ function feasible(maxWait, period, maxLight, minLight, arrivalTime) {
 
 // Explanation: We binary search on the maximum waiting time (penalty). For a given candidate maxWait, we check if it's feasible to assign each car to a traffic light such that its waiting time <= maxWait. For each car, compute r = arrivalTime % period. If there exists a light with green duration > r, the car can have zero wait. Otherwise, we need to wait for the next green cycle; the wait is period - r, which must be <= maxWait. If any car cannot satisfy, the candidate is infeasible.
 
+
+\n// Problem: Nearest Available Drone (LeetCode #4024 - Easy)\n// Link: https://leetcode.com/problems/nearest-available-drone/\n// Description: You are given a 2D integer array drones, where drones[i] = [xi, yi, rangei] represents the x-coordinate, y-coordinate, and travel range of the ith drone.\n\nYou are also given an integer array target = [tx, ty], representing the coordinates of the target.\n\nA drone drones[i] can reach the target if the Manhattan distance between its coordinates and the target coordinates is less than or equal to its rangei.\n\nReturn the index of the reachable drone with the minimum Manhattan distance to the target.\n\n// Example 1:\n// Input: drones = [[0,0,5],[1,1,3],[2,2,1]], target = [2,2]\n// Output: 2\n\n// Explanation: Drone 0: distance = |0-2|+|0-2| = 4 <= 5 (reachable). Drone 1: distance = |1-2|+|1-2| = 2 <= 3 (reachable). Drone 2: distance = |2-2|+|2-2| = 0 <= 1 (reachable). The minimum distance is 0 from drone 2, so return 2.\n\n// Example 2:\n// Input: drones = [[0,0,1],[1,1,1]], target = [5,5]\n// Output: -1\n\n// Explanation: Drone 0: distance = |0-5|+|0-5| = 10 > 1 (not reachable). Drone 1: distance = |1-5|+|1-5| = 8 > 1 (not reachable). No drone reachable, return -1.\n\n// Solution:\nfunction nearestDrone(drones, target) {
+    const [tx, ty] = target;
+    let minDistance = Infinity;
+    let minIndex = -1;
+    for (let i = 0; i < drones.length; i++) {
+        const [x, y, range] = drones[i];
+        const distance = Math.abs(x - tx) + Math.abs(y - ty);
+        if (distance <= range) {
+            if (distance < minDistance) {
+                minDistance = distance;
+                minIndex = i;
+            }
+        }
+    }
+    return minIndex;
+}\n\n// Explanation: We iterate through each drone, compute the Manhattan distance to the target, and check if it is within the drone's range. We keep track of the reachable drone with the smallest distance (and smallest index in case of ties). If no drone is reachable, we return -1. This runs in O(n) time and O(1) space.
