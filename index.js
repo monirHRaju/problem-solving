@@ -2017,3 +2017,40 @@ function feasible(maxWait, period, maxLight, minLight, arrivalTime) {
     }
     return minIndex;
 }\n\n// Explanation: We iterate through each drone, compute the Manhattan distance to the target, and check if it is within the drone's range. We keep track of the reachable drone with the smallest distance (and smallest index in case of ties). If no drone is reachable, we return -1. This runs in O(n) time and O(1) space.
+// Problem: Minimum Total Price After Applying Discounts — Given two integer arrays prices and discounts, where prices[i] is the price of the ith item and discounts[j] is a discount percentage, apply discounts such that each discount to at most one item, each item at most one discount, to minimize the sum of final prices where applying discount d percent to price p yields p*(100-d)/100.
+
+// Example 1:
+// Input: prices = [10,30,21], discounts = [50,60]
+// Output: 32.50000
+// Explanation: Apply 60% discount to price 30 → 12, 50% discount to price 21 → 10.5, price 10 no discount → 10. Total = 32.5
+
+// Example 2:
+// Input: prices = [100,70], discounts = [10,40,50]
+// Output: 92.00000
+// Explanation: Apply 50% discount to price 100 → 50, 40% discount to price 70 → 42. Total = 92
+
+// Example 3:
+// Input: prices = [7,3,9], discounts = [100,100]
+// Output: 3.00000
+// Explanation: Apply 100% discount to prices 9 and 7 → 0 each, price 3 no discount → 3. Total = 3
+
+// Solution:
+function minimumTotalPrice(prices, discounts) {
+    // Sort prices descending
+    const sortedPrices = [...prices].sort((a, b) => b - a);
+    // Sort discounts descending
+    const sortedDiscounts = [...discounts].sort((a, b) => b - a);
+    const k = Math.min(sortedPrices.length, sortedDiscounts.length);
+    let total = 0;
+    for (let i = 0; i < sortedPrices.length; i++) {
+        let price = sortedPrices[i];
+        if (i < k) {
+            const discount = sortedDiscounts[i];
+            price = price * (100 - discount) / 100;
+        }
+        total += price;
+    }
+    return total;
+}
+
+// Explanation: To minimize total price, we maximize total discount. Since discount reduction is price * discount/100, we should assign larger discounts to higher prices. Thus sort both arrays descending and pair the i-th largest discount with the i-th highest price for as many pairs as possible. Remaining items get no discount. Time complexity O(n log n) due to sorting, space O(n) for copies.
