@@ -2054,3 +2054,44 @@ function minimumTotalPrice(prices, discounts) {
 }
 
 // Explanation: To minimize total price, we maximize total discount. Since discount reduction is price * discount/100, we should assign larger discounts to higher prices. Thus sort both arrays descending and pair the i-th largest discount with the i-th highest price for as many pairs as possible. Remaining items get no discount. Time complexity O(n log n) due to sorting, space O(n) for copies.
+\n
+// Problem: Longest Substring Without Repeating Characters (LeetCode #3 - Medium)
+// Link: https://leetcode.com/problems/longest-substring-without-repeating-characters/
+// Description: Given a string  s , find the length of the  longest    substring   without duplicate characters.
+
+// Example 1:
+// Input: s = "abcabcbb"
+// Output: 3
+// Explanation: The answer is "abc", with the length of 3.
+
+//
+// Example 2:
+// Input: s = "bbbbb"
+// Output: 1
+// Explanation: The answer is "b", with the length of 1.
+
+//
+// Example 3:
+// Input: s = "pwwkew"
+// Output: 3
+// Explanation: The answer is "wke", with the length of 3.
+
+//
+// Solution:
+function lengthOfLongestSubstring(s) {
+    const map = new Map();
+    let left = 0;
+    let max = 0;
+    for (let right = 0; right < s.length; right++) {
+        const ch = s[right];
+        if (map.has(ch) && map.get(ch) >= left) {
+            left = map.get(ch) + 1;
+        }
+        map.set(ch, right);
+        max = Math.max(max, right - left + 1);
+    }
+    return max;
+}
+
+// Explanation:
+We use a sliding window approach with a map to store the most recent index of each character. We maintain a left pointer that marks the start of the current window. As we iterate with the right pointer, if we encounter a character that is already in the window (i.e., its index >= left), we move left to just after the previous occurrence. We update the max length accordingly. This runs in O(n) time and O(min(m, n)) space where m is the charset size.
