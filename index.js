@@ -2095,3 +2095,26 @@ function lengthOfLongestSubstring(s) {
 
 // Explanation:
 We use a sliding window approach with a map to store the most recent index of each character. We maintain a left pointer that marks the start of the current window. As we iterate with the right pointer, if we encounter a character that is already in the window (i.e., its index >= left), we move left to just after the previous occurrence. We update the max length accordingly. This runs in O(n) time and O(min(m, n)) space where m is the charset size.
+// Problem: Best Time to Buy and Sell Stock using Strategy (LeetCode #3980 - Unknown)
+// Link: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-using-strategy/
+// Description: You are given an integer array parent of length n representing a rooted tree with nodes labeled from 0 to n - 1.
+
+// Example 1:
+// Input: ...
+// Output: ...
+
+// Solution:
+function maxProfit(prices) {
+    let minPrice = Infinity;
+    let maxProfit = 0;
+    for (const price of prices) {
+        if (price < minPrice) {
+            minPrice = price;
+        } else if (price - minPrice > maxProfit) {
+            maxProfit = price - minPrice;
+        }
+    }
+    return maxProfit;
+}
+// Explanation: Brief explanation of the approach.
+
