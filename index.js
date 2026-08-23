@@ -2118,3 +2118,26 @@ function maxProfit(prices) {
 }
 // Explanation: Brief explanation of the approach.
 
+// Problem: Best Time to Buy and Sell Stock V (LeetCode #3892 - Unknown)
+// Link: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-v/
+// Description: You are given an integer array prices where prices[i] is the price of a stock in dollars on the ith day, and an integer k.
+
+// Example 1:
+// Input: ...
+// Output: ...
+
+// Solution:
+function maxProfit(prices) {
+    let minPrice = Infinity;
+    let maxProfit = 0;
+    for (const price of prices) {
+        if (price < minPrice) {
+            minPrice = price;
+        } else if (price - minPrice > maxProfit) {
+            maxProfit = price - minPrice;
+        }
+    }
+    return maxProfit;
+}
+// Explanation: Brief explanation of the approach.
+
