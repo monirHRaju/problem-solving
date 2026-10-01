@@ -2141,3 +2141,40 @@ function maxProfit(prices) {
 }
 // Explanation: Brief explanation of the approach.
 
+// Problem: Rearrange Array by Removing Distinct Values (LeetCode # 4429 - Easy)
+// Link: https://leetcode.com/problems/rearrange-array-by-removing-distinct-values/
+// Description: You are given an integer array nums . You start with an empty array ans . Repeat the following operation until nums is empty : Identify all distinct values currently present in nums . Remove one occurrence of every distinct value currently in nums , and append those values to ans in ascending order.
+
+// Example 1:
+// Input: nums = [3,1,3,2,1,3]
+// Output: [1,2,3,1,3,3]
+// 
+// Example 2:
+// Input: nums = [7,7,4,4,4]
+// Output: [4,7,4,7,4]
+// 
+// Solution:
+function rearrangeArray(nums) {
+    let freq = new Map();
+    for (const num of nums) {
+        freq.set(num, (freq.get(num) || 0) + 1);
+    }
+    const ans = [];
+    while (freq.size > 0) {
+        // Get distinct values and sort
+        const distinct = Array.from(freq.keys()).sort((a, b) => a - b);
+        // Append the distinct sorted list to ans
+        ans.push(...distinct);
+        // Remove one occurrence of each distinct value
+        for (const val of distinct) {
+            const count = freq.get(val);
+            if (count === 1) {
+                freq.delete(val);
+            } else {
+                freq.set(val, count - 1);
+            }
+        }
+    }
+    return ans;
+}
+// Explanation: We use a frequency map to count occurrences of each number. In each iteration, we get the distinct values, sort them, and append to the result. Then we decrement the frequency of each distinct value (removing if count becomes zero). This process repeats until all numbers are used. The time complexity is O(k * d log d) where k is the maximum frequency and d is the number of distinct values (at most 100). The space complexity is O(d) for the frequency map.
