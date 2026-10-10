@@ -2192,3 +2192,56 @@ var minQueenMoves = function(source, target) {
     if (sr === tr || sc === tc || Math.abs(sr - tr) === Math.abs(sc - tc)) return 1;
     return 2;
 }\n\n// Explanation: The queen can move any number of squares horizontally, vertically, or diagonally. If the source and target are the same, 0 moves. If they share a row, column, or diagonal (absolute row difference equals absolute column difference), the queen can reach in 1 move. Otherwise, the queen can always reach the target in 2 moves (move to an intermediate square that aligns with either the row or column of the target, then to the target).\n
+// Problem: Maximum Equal Adjacent Pairs After at Most One Replacement (LeetCode #4420 - Medium)
+// Link: https://leetcode.com/problems/maximum-equal-adjacent-pairs-after-at-most-one-replacement/
+// Description: You are given a 1-indexed integer array nums . You can choose two distinct values x and y and perform the following operation at most once: Replace every occurrence of x in nums with y . Return the ma.
+
+// Example 1:
+// Input: nums = [1,2,1,2,1,2]
+// Output: 5
+// Explanation: Change all 1 to 2, array becomes [2,2,2,2,2,2]. All five adjacent pairs are equal.
+
+// Solution:
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxEqualAdjacentPairs = function(nums) {
+    const n = nums.length;
+    if (n < 2) return 0;
+    let originalTotal = 0;
+    for (let i = 0; i < n - 1; i++) {
+        if (nums[i] === nums[i + 1]) {
+            originalTotal++;
+        }
+    }
+    const neighborCounts = new Map();
+    for (let i = 0; i < n; i++) {
+        const val = nums[i];
+        if (!neighborCounts.has(val)) {
+            neighborCounts.set(val, new Map());
+        }
+        const left = i > 0 ? nums[i - 1] : null;
+        const right = i < n - 1 ? nums[i + 1] : null;
+        if (left !== null && left !== val) {
+            const map = neighborCounts.get(val);
+            map.set(left, (map.get(left) || 0) + 1);
+        }
+        if (right !== null && right !== val) {
+            const map = neighborCounts.get(val);
+            map.set(right, (map.get(right) || 0) + 1);
+        }
+    }
+    let maxGain = 0;
+    for (const [x, mapX] of neighborCounts) {
+        for (const [y, count] of mapX) {
+            if (x !== y) {
+                if (count > maxGain) {
+                    maxGain = count;
+                }
+            }
+        }
+    }
+    return originalTotal + maxGain;
+};
+// Explanation: We count the original number of equal adjacent pairs. For each value x, we count how many times each neighboring value v (v != x) appears adjacent to x. Changing all x to y will turn each neighboring pair (x, v) into (y, v). If v == y, the pair becomes equal, gaining 1 for each such neighbor. Thus the gain for changing x to y is the number of neighbors of x equal to y. We maximize this gain over all distinct x and y. The answer is the original total plus the maximum gain.
