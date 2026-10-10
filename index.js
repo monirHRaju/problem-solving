@@ -2245,3 +2245,39 @@ var maxEqualAdjacentPairs = function(nums) {
     return originalTotal + maxGain;
 };
 // Explanation: We count the original number of equal adjacent pairs. For each value x, we count how many times each neighboring value v (v != x) appears adjacent to x. Changing all x to y will turn each neighboring pair (x, v) into (y, v). If v == y, the pair becomes equal, gaining 1 for each such neighbor. Thus the gain for changing x to y is the number of neighbors of x equal to y. We maximize this gain over all distinct x and y. The answer is the original total plus the maximum gain.
+
+
+// Problem: Number of Intersecting Interval Pairs I
+// Link: https://leetcode.com/problems/number-of-intersecting-intervals-pairs-i/
+// Description: You are given a 2D integer array intervals of n elements, where intervals[i] = [start_i, end_i] represents the closed interval from start_i to end_i.
+// Return the number of pairs of indices (i, j) such that 0 <= i < j < n and intervals[i] and intervals[j] intersect.
+// Two intervals intersect if they have at least one point in common, including when they only share an endpoint.
+// Example 1:
+// Input: intervals = [[1,2],[2,3],[3,4]]
+// Output: 2
+// Explanation: There are 2 intersecting interval pairs:
+// Intervals [1, 2] and [2, 3] intersect at the point 2.
+// Intervals [2, 3] and [3, 4] intersect at the point 3.
+// Example 2:
+// Input: intervals = [[1,5],[2,4],[3,6]]
+// Output: 3
+// Explanation: There are 3 intersecting interval pairs:
+// The intersection of [1, 5] and [2, 4] is [2, 4].
+// The intersection of [1, 5] and [3, 6] is [3, 5].
+// The intersection of [2, 4] and [3, 6] is [3, 4].
+// Solution:
+function countIntersectingIntervals(intervals) {
+    let count = 0;
+    const n = intervals.length;
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            const a = intervals[i][0], b = intervals[i][1];
+            const c = intervals[j][0], d = intervals[j][1];
+            if (Math.max(a, c) <= Math.min(b, d)) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+// Explanation: We iterate over all unique pairs of intervals. For each pair, we check if they intersect by verifying that the maximum of the start points is less than or equal to the minimum of the end points. If so, they share at least one point. This runs in O(n^2) time, which is acceptable given the constraint n <= 100.
