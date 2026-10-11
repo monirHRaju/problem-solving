@@ -2281,3 +2281,34 @@ function countIntersectingIntervals(intervals) {
     return count;
 }
 // Explanation: We iterate over all unique pairs of intervals. For each pair, we check if they intersect by verifying that the maximum of the start points is less than or equal to the minimum of the end points. If so, they share at least one point. This runs in O(n^2) time, which is acceptable given the constraint n <= 100.
+
+// Problem: Minimum Queen Moves to Reach Target (LeetCode # 4421 - Easy)
+// Link: https://leetcode.com/problems/minimum-queen-moves-to-reach-target/
+// Description: There is an 8 x 8 empty chessboard with 1-indexed rows and columns. You are given an array source = [sr, sc] representing the starting position of a queen , and an array target = [tr, tc] representing...
+
+// Example 1:
+// Input: source = [8,1], target = [1,8]
+// Output: 1
+// Explanation: A single diagonal move takes the queen straight from (8, 1) to (1, 8).
+
+// Example 2:
+// Input: source = [4,2], target = [1,3]
+// Output: 2
+// Explanation: The queen moves from (4, 2) to (4, 3), then from (4, 3) to (1, 3), reaching the target in 2 moves.
+
+// Solution:
+/**
+ * @param {number[]} source
+ * @param {number[]} target
+ * @return {number}
+ */
+var minQueenMoves = function(source, target) {
+    const [sr, sc] = source;
+    const [tr, tc] = target;
+    if (sr === tr && sc === tc) return 0;
+    if (sr === tr || sc === tc || Math.abs(sr - tr) === Math.abs(sc - tc)) return 1;
+    return 2;
+};
+
+// Explanation: The queen can move any number of squares horizontally, vertically, or diagonally. If source and target are the same, 0 moves. If they share a row, column, or diagonal (absolute row difference equals absolute column difference), the queen can reach in 1 move. Otherwise, the queen can always reach the target in 2 moves (move to an intermediate square that aligns with either the row or column of the target, then to the target).
+
